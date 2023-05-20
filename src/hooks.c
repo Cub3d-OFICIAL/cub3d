@@ -6,7 +6,7 @@
 /*   By: mpinna-l <mpinna-l@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 13:51:07 by mpinna-l          #+#    #+#             */
-/*   Updated: 2023/03/13 19:04:40 by mpinna-l         ###   ########.fr       */
+/*   Updated: 2023/05/20 18:07:39 by mpinna-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ int	key_event(int keycode, t_setup *info)
 		exit(EXIT_FAILURE);
 	}
 	if (keycode == R_KEY)
-		ft_printf("Rigth key\n");
+	{
+		info->map_data.player_posy += 1;
+		ft_printf("Rigth key %i\n ",info->map_data.player_posy);
+	}
 	if (keycode == L_KEY)
 		ft_printf("Left key\n");
 	if (keycode == U_KEY)

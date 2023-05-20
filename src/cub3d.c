@@ -6,7 +6,7 @@
 /*   By: mpinna-l <mpinna-l@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 13:44:43 by mpinna-l          #+#    #+#             */
-/*   Updated: 2023/03/19 17:12:45 by mpinna-l         ###   ########.fr       */
+/*   Updated: 2023/05/20 18:20:38 by mpinna-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,15 @@ void	draw_floor_celling(t_setup *set)
 	mlx_put_image_to_window(set->mlx, set->mlx_win, c_img.img, 0, HEIGHT / 2);
 	mlx_destroy_image(set->mlx, f_img.img);
 	mlx_destroy_image(set->mlx, c_img.img);
+}
+
+
+void	render_player(t_setup *set) {
+	t_data	player;
+	
+	player = square_img(4, 4, rgb_color(255, 0, 0), set->mlx);
+	mlx_put_image_to_window(set->mlx, set->mlx_win, player.img, 17 * set->map_data.player_posy, 17 * set->map_data.player_posx);  
+	mlx_destroy_image(set->mlx, player.img);
 }
 
 void	render_minimap(t_setup *set)
@@ -49,8 +58,10 @@ void	render_minimap(t_setup *set)
 				{
 					if (set->map_data.map[i][j] == '1' || set->map_data.map[i][j] == ' ')
 						my_mlx_pixel_put(&minimap, x + (j * 17), y + (i * 17), 0);
+					else if (set->map_data.player_posy == j && set->map_data.player_posx == i)
+						my_mlx_pixel_put(&minimap, x + (j * 17), y + (i * 17), rgb_color(255, 255, 0));
 					else
-						my_mlx_pixel_put(&minimap, x + (j * 17), y + (i * 17), 16777215);
+						my_mlx_pixel_put(&minimap, x + (j * 17), y + (i * 17), rgb_color(255, 255, 255));
 				}
 			}
 		}
@@ -63,21 +74,9 @@ void	start_game(t_setup *game_setup)
 {
 	game_setup->mlx = mlx_init();
 	game_setup->mlx_win = mlx_new_window(game_setup->mlx, WIDTH, HEIGHT, CUB);
-	draw_floor_celling(game_setup);
+	//	draw_floor_celling(game_setup);
 	render_minimap(game_setup);
-	
-	// Printing Map info
-	printf("|- GAME INFO -|\n\n");
-	print_str_array(game_setup->map_data.map);
-	printf("Fields Filled %i\n", game_setup->map_data.fields_filled);
-	printf("Celling Color %i\n", game_setup->map_data.c_color);
-	printf("Floor Color %i\n", game_setup->map_data.f_color);
-	printf("rows %i\n", game_setup->map_data.row_nbr);
-	printf("cols %i\n", game_setup->map_data.col_nbr);
-	printf("Orientation %c\n", game_setup->map_data.orientation);
-	printf("Player posx %i\n", game_setup->map_data.player_posx);
-	printf("Player posy %i\n", game_setup->map_data.player_posy);
-	
+	render_player(game_setup);	
 	mlx_key_hook(game_setup->mlx_win, key_event, game_setup);
 	mlx_hook(game_setup->mlx_win, 17, 0, close_win, game_setup);
 	mlx_loop(game_setup->mlx);
@@ -113,3 +112,18 @@ t_data	square_img(int width, int height, int color, void *mlx)
 	}	
 	return (sqr);
 }
+
+
+
+	/* Printing Map info
+	printf("|- GAME INFO -|\n\n");
+	print_str_array(game_setup->map_data.map);
+	printf("Fields Filled %i\n", game_setup->map_data.fields_filled);
+	printf("Celling Color %i\n", game_setup->map_data.c_color);
+	printf("Floor Color %i\n", game_setup->map_data.f_color);
+	printf("rows %i\n", game_setup->map_data.row_nbr);
+	printf("cols %i\n", game_setup->map_data.col_nbr);
+	printf("Orientation %c\n", game_setup->map_data.orientation);
+	printf("Player posx %i\n", game_setup->map_data.player_posx);
+	printf("Player posy %i\n", game_setup->map_data.player_posy);
+	*/

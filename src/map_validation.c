@@ -6,7 +6,7 @@
 /*   By: mpinna-l <mpinna-l@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 15:40:40 by mpinna-l          #+#    #+#             */
-/*   Updated: 2023/03/19 17:05:10 by mpinna-l         ###   ########.fr       */
+/*   Updated: 2023/05/20 17:20:23 by mpinna-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ int	check_map_content(char **map, t_map_info *info)
 		{
 			if (!ft_strchr(MAP_CHARS, map[i][j]))
 				flags[0] = 1;
-//			if (map[i][j] == 'S' || map[i][j] == 'N'
-//					|| map[i][j] == 'W' || map[i][j] == 'E')
 			if (ft_strchr(DIR_CHARS, map[i][j]))
 			{
 				info->orientation = map[i][j];

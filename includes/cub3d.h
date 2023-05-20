@@ -6,7 +6,7 @@
 /*   By: vsergio <vsergio@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:48:11 by vsergio           #+#    #+#             */
-/*   Updated: 2023/03/19 17:04:07 by mpinna-l         ###   ########.fr       */
+/*   Updated: 2023/05/20 17:30:06 by mpinna-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ int			read_map(t_map_info *map_data, char *filename);
 int			is_map_valid(t_map_info *map_data);
 void		format_map(t_map_info *map_data);
 void		flood_fill(t_map_info *data, int i, int j, int *flag);
+int			rgb_color(int red, int green, int blue);
 
 // array utils
 int			array_size(char **array);
