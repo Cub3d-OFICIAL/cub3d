@@ -6,7 +6,7 @@
 /*   By: mpinna-l <mpinna-l@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 13:44:43 by mpinna-l          #+#    #+#             */
-/*   Updated: 2023/05/27 16:35:35 by mpinna-l         ###   ########.fr       */
+/*   Updated: 2023/05/27 18:07:33 by mpinna-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	draw_floor_celling(t_setup *set)
 void	render_player(t_setup *set) {
 	t_data	player;
 	
-	player = square_img(4, 4, rgb_color(255, 0, 0), set->mlx);
-	mlx_put_image_to_window(set->mlx, set->mlx_win, player.img, 17 * set->map_data.player_posy, 17 * set->map_data.player_posx);  
+	player = square_img(30, 30, rgb_color(255, 0, 0), set->mlx);
+	mlx_put_image_to_window(set->mlx, set->mlx_win, player.img, set->player.posy, set->player.posx);  
 	mlx_destroy_image(set->mlx, player.img);
 }
 
@@ -74,7 +74,8 @@ int render_next_frame(t_setup *game_setup)
 {
 	if (game_setup->has_changes)
 	{
-		render_minimap(game_setup);
+		draw_floor_celling(game_setup);
+//		render_minimap(game_setup);
 		render_player(game_setup);
 		game_setup->has_changes = 0;
 	}
@@ -86,10 +87,12 @@ void	start_game(t_setup *game_setup)
 	game_setup->mlx = mlx_init();
 	game_setup->mlx_win = mlx_new_window(game_setup->mlx, WIDTH, HEIGHT, CUB);
 	game_setup->has_changes = 1;
-	draw_floor_celling(game_setup);
 	
-	mlx_key_hook(game_setup->mlx_win, key_event, game_setup);
+//	mlx_key_hook(game_setup->mlx_win, key_event, game_setup);
+//	mlx_hook(game_setup->mlx_win, KeyRelease, KeyReleaseMask, key_release_event, &(game_setup->keys));
 
+	mlx_hook(game_setup->mlx_win, 2, 1L<<0, key_event, game_setup);
+	mlx_hook(game_setup->mlx_win, 3, 2L<<0, key_event_release, game_setup);
 	mlx_hook(game_setup->mlx_win, 17, 0, close_win, game_setup);
 	mlx_loop_hook(game_setup->mlx, render_next_frame, game_setup);	
 	
@@ -101,8 +104,11 @@ void	init_player(t_setup *game_setup)
 	int	start_tilex;
 	int	start_tiley;
 
-	start_tilex = game_setup->player.posx;
-	start_tiley = game_setup->player.posy;
+	start_tilex = game_setup->map_data.player_posx;
+	start_tiley = game_setup->map_data.player_posy;
+	
+	game_setup->player.posx = 0;
+	game_setup->player.posy = 0;
 
 	ft_printf("My player pos in X -> %i and Y -> %i\n", start_tilex, start_tiley);
 }

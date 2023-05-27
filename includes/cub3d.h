@@ -6,7 +6,7 @@
 /*   By: vsergio <vsergio@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:48:11 by vsergio           #+#    #+#             */
-/*   Updated: 2023/05/21 15:52:13 by mpinna-l         ###   ########.fr       */
+/*   Updated: 2023/05/27 17:47:34 by mpinna-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,13 @@ typedef struct s_data
 	int		endian;
 }	t_data;
 
+typedef struct s_flags {
+	int move_right;
+	int move_left;
+	int	move_forward;
+	int move_backward;
+}	t_flags;
+
 typedef struct s_player
 {
 	int		posx;
@@ -124,6 +131,7 @@ typedef struct s_setup
 	t_map_info	map_data;
 	t_player	player;
 	int			has_changes;
+	t_flags		flags;
 }	t_setup;	
 
 /* _______________________Functions_________________________ */
@@ -159,6 +167,7 @@ t_data		square_img(int width, int height, int color, void *mlx);
 
 // hooks
 int			key_event(int keycode, t_setup *info);
+int			key_event_release(int keycode, t_setup *info);
 int			close_win(t_setup *info);
 
 void		my_mlx_pixel_put(t_data *info, int x, int y, int color);
