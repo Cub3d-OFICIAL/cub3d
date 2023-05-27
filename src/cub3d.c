@@ -6,7 +6,7 @@
 /*   By: mpinna-l <mpinna-l@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 13:44:43 by mpinna-l          #+#    #+#             */
-/*   Updated: 2023/05/20 18:20:38 by mpinna-l         ###   ########.fr       */
+/*   Updated: 2023/05/27 16:35:35 by mpinna-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,36 @@ void	render_minimap(t_setup *set)
 	mlx_destroy_image(set->mlx, minimap.img);
 }
 
+int render_next_frame(t_setup *game_setup)
+{
+	if (game_setup->has_changes)
+	{
+		render_minimap(game_setup);
+		render_player(game_setup);
+		game_setup->has_changes = 0;
+	}
+	return (0);
+}
+
 void	start_game(t_setup *game_setup)
 {
 	game_setup->mlx = mlx_init();
 	game_setup->mlx_win = mlx_new_window(game_setup->mlx, WIDTH, HEIGHT, CUB);
-	//	draw_floor_celling(game_setup);
-	render_minimap(game_setup);
-	render_player(game_setup);	
+	game_setup->has_changes = 1;
+	draw_floor_celling(game_setup);
+	
 	mlx_key_hook(game_setup->mlx_win, key_event, game_setup);
+
 	mlx_hook(game_setup->mlx_win, 17, 0, close_win, game_setup);
+	mlx_loop_hook(game_setup->mlx, render_next_frame, game_setup);	
+	
 	mlx_loop(game_setup->mlx);
 }
+/*
+void	init_player(t_setup *game_setup)
+{
+	
+}*/
 
 int	main(int argc, char **argv)
 {
@@ -90,6 +109,7 @@ int	main(int argc, char **argv)
 		return (print_error(ARG_ERROR, 1));
 	if (check_map(argv[1], EXT, &game_setup.map_data))
 		return (print_error(EXT_ERROR, 1));
+//	init_player(&game_setup);
 	start_game(&game_setup);
 	clean_map(&game_setup.map_data);
 	return (0);

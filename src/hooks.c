@@ -6,7 +6,7 @@
 /*   By: mpinna-l <mpinna-l@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 13:51:07 by mpinna-l          #+#    #+#             */
-/*   Updated: 2023/05/20 18:07:39 by mpinna-l         ###   ########.fr       */
+/*   Updated: 2023/05/21 15:54:50 by mpinna-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,27 @@ int	key_event(int keycode, t_setup *info)
 	if (keycode == R_KEY)
 	{
 		info->map_data.player_posy += 1;
+		info->has_changes = 1;
 		ft_printf("Rigth key %i\n ",info->map_data.player_posy);
 	}
 	if (keycode == L_KEY)
-		ft_printf("Left key\n");
+	{
+		info->map_data.player_posy -= 1;
+		info->has_changes = 1;
+		ft_printf("left key %i\n ",info->map_data.player_posy);
+	}
 	if (keycode == U_KEY)
-		ft_printf("Up key\n");
+	{
+		info->map_data.player_posx -= 1;
+		info->has_changes = 1;
+		ft_printf("Up key %i\n ",info->map_data.player_posx);
+	}
 	if (keycode == D_KEY)
-		ft_printf("Down key\n");
+	{
+		info->map_data.player_posx += 1;
+		info->has_changes = 1;
+		ft_printf("Down key %i\n ",info->map_data.player_posx);
+	}
 	return (0);
 }
 

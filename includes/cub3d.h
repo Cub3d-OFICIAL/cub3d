@@ -6,7 +6,7 @@
 /*   By: vsergio <vsergio@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:48:11 by vsergio           #+#    #+#             */
-/*   Updated: 2023/05/20 17:30:06 by mpinna-l         ###   ########.fr       */
+/*   Updated: 2023/05/21 15:52:13 by mpinna-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ typedef struct s_setup
 	void		*mlx_win;
 	t_map_info	map_data;
 	t_player	player;
+	int			has_changes;
 }	t_setup;	
 
 /* _______________________Functions_________________________ */
