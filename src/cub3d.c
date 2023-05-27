@@ -95,11 +95,17 @@ void	start_game(t_setup *game_setup)
 	
 	mlx_loop(game_setup->mlx);
 }
-/*
+
 void	init_player(t_setup *game_setup)
 {
-	
-}*/
+	int	start_tilex;
+	int	start_tiley;
+
+	start_tilex = game_setup->player.posx;
+	start_tiley = game_setup->player.posy;
+
+	ft_printf("My player pos in X -> %i and Y -> %i\n", start_tilex, start_tiley);
+}
 
 int	main(int argc, char **argv)
 {
@@ -109,7 +115,7 @@ int	main(int argc, char **argv)
 		return (print_error(ARG_ERROR, 1));
 	if (check_map(argv[1], EXT, &game_setup.map_data))
 		return (print_error(EXT_ERROR, 1));
-//	init_player(&game_setup);
+	init_player(&game_setup);
 	start_game(&game_setup);
 	clean_map(&game_setup.map_data);
 	return (0);
