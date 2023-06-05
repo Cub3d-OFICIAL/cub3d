@@ -17,10 +17,10 @@ void	draw_floor_celling(t_setup *set)
 	t_data	f_img;
 	t_data	c_img;
 
-	f_img = square_img(WIDTH, HEIGHT / 2, set->map_data.f_color, set->mlx);
-	c_img = square_img(WIDTH, HEIGHT / 2, set->map_data.c_color, set->mlx);
+	f_img = square_img(set->map_data.win_width, set->map_data.win_height / 2, set->map_data.f_color, set->mlx);
+	c_img = square_img(set->map_data.win_width, set->map_data.win_height / 2, set->map_data.c_color, set->mlx);
 	mlx_put_image_to_window(set->mlx, set->mlx_win, f_img.img, 0, 0);
-	mlx_put_image_to_window(set->mlx, set->mlx_win, c_img.img, 0, HEIGHT / 2);
+	mlx_put_image_to_window(set->mlx, set->mlx_win, c_img.img, 0, set->map_data.win_height / 2);
 	mlx_destroy_image(set->mlx, f_img.img);
 	mlx_destroy_image(set->mlx, c_img.img);
 }
@@ -36,38 +36,30 @@ void	render_player(t_setup *set) {
 
 void	render_minimap(t_setup *set)
 {
-	t_data	minimap;
+	t_data	tile_img;
 	int		i;
 	int		j;
-	int		x;
-	int		y;
+	int		tile_x;
+	int		tile_y;
 
-	minimap.img = mlx_new_image(set->mlx, set->map_data.col_nbr * 17, set->map_data.row_nbr * 17);
-	minimap.addr = mlx_get_data_addr(minimap.img, &minimap.bpp, &minimap.line_len, &minimap.endian);
 	i = -1;
 	while (++i < set->map_data.row_nbr)
 	{
 		j = -1;
 		while (++j < set->map_data.col_nbr)
 		{
-			y = -1;
-		   	while (++y < 16)
-			{
-				x = -1;
-				while(++x < 16)
-				{
-					if (set->map_data.map[i][j] == '1' || set->map_data.map[i][j] == ' ')
-						my_mlx_pixel_put(&minimap, x + (j * 17), y + (i * 17), 0);
-					else if (set->map_data.player_posy == j && set->map_data.player_posx == i)
-						my_mlx_pixel_put(&minimap, x + (j * 17), y + (i * 17), rgb_color(255, 255, 0));
-					else
-						my_mlx_pixel_put(&minimap, x + (j * 17), y + (i * 17), rgb_color(255, 255, 255));
-				}
-			}
+			tile_x = j * TILE_SIZE;
+			tile_y = i * TILE_SIZE;
+			if (set->map_data.map[i][j] == '1' || set->map_data.map[i][j] == ' ')
+				tile_img = square_img(TILE_SIZE * MINIMAP_SCALE, TILE_SIZE * MINIMAP_SCALE, 0, set->mlx);
+			else if (set->map_data.player_posy == j && set->map_data.player_posx == i)
+				tile_img = square_img(TILE_SIZE * MINIMAP_SCALE, TILE_SIZE * MINIMAP_SCALE, rgb_color(255, 255, 0), set->mlx);
+			else
+				tile_img = square_img(TILE_SIZE * MINIMAP_SCALE, TILE_SIZE * MINIMAP_SCALE, rgb_color(255, 255, 255), set->mlx);
+			mlx_put_image_to_window(set->mlx, set->mlx_win, tile_img.img, tile_x * MINIMAP_SCALE, tile_y * MINIMAP_SCALE);
+			mlx_destroy_image(set->mlx, tile_img.img);
 		}
 	}
-	mlx_put_image_to_window(set->mlx, set->mlx_win, minimap.img, 0, 0);
-	mlx_destroy_image(set->mlx, minimap.img);
 }
 
 int render_next_frame(t_setup *game_setup)
@@ -84,7 +76,7 @@ int render_next_frame(t_setup *game_setup)
 void	start_game(t_setup *game_setup)
 {
 	game_setup->mlx = mlx_init();
-	game_setup->mlx_win = mlx_new_window(game_setup->mlx, WIDTH, HEIGHT, CUB);
+	game_setup->mlx_win = mlx_new_window(game_setup->mlx, game_setup->map_data.win_width, game_setup->map_data.win_height, CUB);
 	game_setup->has_changes = 1;
 	draw_floor_celling(game_setup);
 	
@@ -95,11 +87,21 @@ void	start_game(t_setup *game_setup)
 	
 	mlx_loop(game_setup->mlx);
 }
-/*
-void	init_player(t_setup *game_setup)
+
+void	init_setup(t_setup *game_setup)
 {
-	
-}*/
+	game_setup->map_data.win_height = game_setup->map_data.row_nbr * TILE_SIZE;
+	game_setup->map_data.win_width = game_setup->map_data.col_nbr * TILE_SIZE;
+	game_setup->player.posx = (game_setup->map_data.player_posx * TILE_SIZE) + (TILE_SIZE/2);
+	game_setup->player.posy = (game_setup->map_data.player_posy * TILE_SIZE) + (TILE_SIZE/2);
+	game_setup->player.height = 5;
+	game_setup->player.width = 5;
+	game_setup->player.turn_direction = 0;
+	game_setup->player.walk_direction = 0;
+	game_setup->player.rotation_angle =  PI / 2;
+	game_setup->player.move_speed = 100;
+	game_setup->player.rotation_speed = 45 * (PI / 180);
+}
 
 int	main(int argc, char **argv)
 {
@@ -109,7 +111,7 @@ int	main(int argc, char **argv)
 		return (print_error(ARG_ERROR, 1));
 	if (check_map(argv[1], EXT, &game_setup.map_data))
 		return (print_error(EXT_ERROR, 1));
-//	init_player(&game_setup);
+	init_setup(&game_setup);
 	start_game(&game_setup);
 	clean_map(&game_setup.map_data);
 	return (0);

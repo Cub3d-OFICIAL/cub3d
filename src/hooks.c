@@ -23,25 +23,21 @@ int	key_event(int keycode, t_setup *info)
 	{
 		info->map_data.player_posy += 1;
 		info->has_changes = 1;
-		ft_printf("Rigth key %i\n ",info->map_data.player_posy);
 	}
 	if (keycode == L_KEY)
 	{
 		info->map_data.player_posy -= 1;
 		info->has_changes = 1;
-		ft_printf("left key %i\n ",info->map_data.player_posy);
 	}
 	if (keycode == U_KEY)
 	{
 		info->map_data.player_posx -= 1;
 		info->has_changes = 1;
-		ft_printf("Up key %i\n ",info->map_data.player_posx);
 	}
 	if (keycode == D_KEY)
 	{
 		info->map_data.player_posx += 1;
 		info->has_changes = 1;
-		ft_printf("Down key %i\n ",info->map_data.player_posx);
 	}
 	return (0);
 }

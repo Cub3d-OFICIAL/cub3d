@@ -73,10 +73,14 @@
 if the data inside it is correct!\n"
 # define MAP_CHARS "01 NSEW"
 # define DIR_CHARS "NSEW"
-/* _______________________Window___________________________ */
+/* _______________________CONSTANTS___________________________ */
 
-# define WIDTH 1024
-# define HEIGHT 512
+# define MINIMAP_SCALE 0.3
+# define TILE_SIZE 64
+# define PI 3.14159265
+# define TWO_PI 6.28318530
+# define FOV_ANGLE (60 * (PI / 180))
+
 
 /* ________________________Structs_________________________ */
 
@@ -95,6 +99,8 @@ typedef struct s_map_info
 	char	orientation;
 	int		player_posx;
 	int		player_posy;
+	int		win_width;
+	int		win_height;
 }	t_map_info;
 
 typedef struct s_data
@@ -110,8 +116,10 @@ typedef struct s_player
 {
 	int		posx;
 	int		posy;
-	int		turn_direction;
-	int		walk_direction;
+	float	width;
+	float	height;
+	int		turn_direction; // -1 for left, +1 for right
+	int		walk_direction; // -1 for back, +1 for front
 	float	rotation_angle;
 	float	move_speed;
 	float	rotation_speed;	
