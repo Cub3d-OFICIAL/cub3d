@@ -75,8 +75,8 @@ if the data inside it is correct!\n"
 # define DIR_CHARS "NSEW"
 /* _______________________CONSTANTS___________________________ */
 
-# define MINIMAP_SCALE 0.3
-# define TILE_SIZE 64
+# define MINIMAP_SCALE 0.25
+# define TILE_SIZE 32
 # define PI 3.14159265
 # define TWO_PI 6.28318530
 # define FOV_ANGLE (60 * (PI / 180))
@@ -114,8 +114,8 @@ typedef struct s_data
 
 typedef struct s_player
 {
-	int		posx;
-	int		posy;
+	float	posx;
+	float	posy;
 	float	width;
 	float	height;
 	int		turn_direction; // -1 for left, +1 for right
@@ -167,6 +167,7 @@ t_data		square_img(int width, int height, int color, void *mlx);
 
 // hooks
 int			key_event(int keycode, t_setup *info);
+int			key_event_release(int keycode, t_setup *info);
 int			close_win(t_setup *info);
 
 void		my_mlx_pixel_put(t_data *info, int x, int y, int color);

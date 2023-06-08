@@ -20,25 +20,26 @@ int	key_event(int keycode, t_setup *info)
 		exit(EXIT_FAILURE);
 	}
 	if (keycode == R_KEY)
-	{
-		info->map_data.player_posy += 1;
-		info->has_changes = 1;
-	}
+		info->player.turn_direction = 1;
 	if (keycode == L_KEY)
-	{
-		info->map_data.player_posy -= 1;
-		info->has_changes = 1;
-	}
+		info->player.turn_direction = -1;
 	if (keycode == U_KEY)
-	{
-		info->map_data.player_posx -= 1;
-		info->has_changes = 1;
-	}
+		info->player.walk_direction = 1;
 	if (keycode == D_KEY)
-	{
-		info->map_data.player_posx += 1;
-		info->has_changes = 1;
-	}
+		info->player.walk_direction = -1;
+	return (0);
+}
+
+int	key_event_release(int keycode, t_setup *info)
+{
+	if (keycode == R_KEY)
+		info->player.turn_direction = 0;
+	if (keycode == L_KEY)
+		info->player.turn_direction = 0;
+	if (keycode == U_KEY)
+		info->player.walk_direction = 0;
+	if (keycode == D_KEY)
+		info->player.walk_direction = 0;
 	return (0);
 }
 

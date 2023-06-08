@@ -24,13 +24,18 @@ void	draw_floor_celling(t_setup *set)
 	mlx_destroy_image(set->mlx, f_img.img);
 	mlx_destroy_image(set->mlx, c_img.img);
 }
-
+void draw_line(t_data* data, int x0, int y0, int x1, int y1);
 
 void	render_player(t_setup *set) {
 	t_data	player;
+	int 	player_x;
+	int		player_y;
+
+	player_x = set->player.posx * MINIMAP_SCALE;
+	player_y = set->player.posy * MINIMAP_SCALE;
 	
-	player = square_img(4, 4, rgb_color(255, 0, 0), set->mlx);
-	mlx_put_image_to_window(set->mlx, set->mlx_win, player.img, 17 * set->map_data.player_posy, 17 * set->map_data.player_posx);  
+	player = square_img(set->player.height * MINIMAP_SCALE, set->player.width * MINIMAP_SCALE, rgb_color(255, 0, 0), set->mlx);
+	mlx_put_image_to_window(set->mlx, set->mlx_win, player.img, player_y, player_x);  
 	mlx_destroy_image(set->mlx, player.img);
 }
 
@@ -62,14 +67,30 @@ void	render_minimap(t_setup *set)
 	}
 }
 
+void move_player(t_setup *game_setup)
+{
+	float	move_step;
+	float	newplayerX;
+	float	newplayerY;
+
+	move_step = game_setup->player.walk_direction * game_setup->player.move_speed;
+	game_setup->player.rotation_angle += game_setup->player.turn_direction * game_setup->player.rotation_speed;
+
+	newplayerX = game_setup->player.posx + (cos(game_setup->player.rotation_angle) * move_step);
+	newplayerY = game_setup->player.posy + (sin(game_setup->player.rotation_angle) * move_step);
+
+	game_setup->player.posx = newplayerX;
+	game_setup->player.posy = newplayerY;
+
+	printf("%f %f\n", newplayerX, newplayerY);
+}
+
 int render_next_frame(t_setup *game_setup)
 {
-	if (game_setup->has_changes)
-	{
-		render_minimap(game_setup);
-		render_player(game_setup);
-		game_setup->has_changes = 0;
-	}
+	move_player(game_setup);
+	render_minimap(game_setup);
+	render_player(game_setup);
+
 	return (0);
 }
 
@@ -80,8 +101,8 @@ void	start_game(t_setup *game_setup)
 	game_setup->has_changes = 1;
 	draw_floor_celling(game_setup);
 	
-	mlx_key_hook(game_setup->mlx_win, key_event, game_setup);
-
+	mlx_hook(game_setup->mlx_win, 2, 1L<<0, key_event, game_setup);
+	mlx_hook(game_setup->mlx_win, 3, 2L<<0, key_event_release, game_setup);
 	mlx_hook(game_setup->mlx_win, 17, 0, close_win, game_setup);
 	mlx_loop_hook(game_setup->mlx, render_next_frame, game_setup);	
 	
@@ -94,8 +115,8 @@ void	init_setup(t_setup *game_setup)
 	game_setup->map_data.win_width = game_setup->map_data.col_nbr * TILE_SIZE;
 	game_setup->player.posx = (game_setup->map_data.player_posx * TILE_SIZE) + (TILE_SIZE/2);
 	game_setup->player.posy = (game_setup->map_data.player_posy * TILE_SIZE) + (TILE_SIZE/2);
-	game_setup->player.height = 5;
-	game_setup->player.width = 5;
+	game_setup->player.height = 10;
+	game_setup->player.width = 10;
 	game_setup->player.turn_direction = 0;
 	game_setup->player.walk_direction = 0;
 	game_setup->player.rotation_angle =  PI / 2;
