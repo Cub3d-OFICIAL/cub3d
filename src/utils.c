@@ -24,8 +24,9 @@ void	free_array(char **str_array)
 	free(str_array);
 }
 
-int	rgb_color(int red, int green, int blue) {
-	return (red << 16 | green << 8 | blue); 
+int	rgb_color(int red, int green, int blue)
+{
+	return (red << 16 | green << 8 | blue);
 }
 
 void	clean_map(t_map_info *map_data)

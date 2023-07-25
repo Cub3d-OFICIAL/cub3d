@@ -6,7 +6,7 @@
 /*   By: vsergio <vsergio@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:48:11 by vsergio           #+#    #+#             */
-/*   Updated: 2023/05/21 15:52:13 by mpinna-l         ###   ########.fr       */
+/*   Updated: 2023/07/15 10:11:07 by mpinna-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,10 @@ if the data inside it is correct!\n"
 # define DIR_CHARS "NSEW"
 /* _______________________CONSTANTS___________________________ */
 
-# define MINIMAP_SCALE 0.3
-# define TILE_SIZE 64
+# define MINIMAP_SCALE 1
+# define TILE_SIZE 32
 # define PI 3.14159265
 # define TWO_PI 6.28318530
-# define FOV_ANGLE (60 * (PI / 180))
-
 
 /* ________________________Structs_________________________ */
 
@@ -114,25 +112,42 @@ typedef struct s_data
 
 typedef struct s_player
 {
-	int		posx;
-	int		posy;
+	float	posx;
+	float	posy;
 	float	width;
 	float	height;
-	int		turn_direction; // -1 for left, +1 for right
-	int		walk_direction; // -1 for back, +1 for front
+	int		turn_direction;
+	int		walk_direction;
 	float	rotation_angle;
 	float	move_speed;
 	float	rotation_speed;	
 }	t_player;
 
+typedef struct s_rays
+{
+	float	rayAngle;
+	float	wallHitX;
+	float	wallHitY;
+	float	distance;
+	int		wasHitVertical;
+	int		isRayFacingUp;
+	int		isRayFacingDown;
+	int		isRayFacingRight;
+	int		isRayFacingLeft;
+	int		wallHitContent;
+}	t_rays;
+
 typedef struct s_setup
 {
 	void		*mlx;
 	void		*mlx_win;
+	t_data		frame;
 	t_map_info	map_data;
 	t_player	player;
-	int			has_changes;
+	int			states[4];
+	t_rays		*rays;
 }	t_setup;	
+
 
 /* _______________________Functions_________________________ */
 
@@ -152,6 +167,23 @@ void		format_map(t_map_info *map_data);
 void		flood_fill(t_map_info *data, int i, int j, int *flag);
 int			rgb_color(int red, int green, int blue);
 
+// render functions
+void		set_color(int *color, int i, int j, t_setup *set);
+void		render_minimap(t_setup *set);
+void		render_player(t_setup *set);
+void		render_floor_celling(t_setup *set);
+
+// player moviment
+void		move_player(t_setup *set);
+int			is_wall(int x, int y, t_setup *set);
+
+//Raycasting
+void		cast_all_rays(t_setup *set);
+
+//DDA
+void		dda(t_setup *set, float distance);
+void		dda_points(t_setup *set, float x, float y, float distance, float rayAngle);
+
 // array utils
 int			array_size(char **array);
 char		**add_string(char **array, char *str, int size);
@@ -167,6 +199,7 @@ t_data		square_img(int width, int height, int color, void *mlx);
 
 // hooks
 int			key_event(int keycode, t_setup *info);
+int			key_event_release(int keycode, t_setup *info);
 int			close_win(t_setup *info);
 
 void		my_mlx_pixel_put(t_data *info, int x, int y, int color);

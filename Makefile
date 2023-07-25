@@ -9,7 +9,8 @@ FLAGS = -Wall -Wextra -Werror -g
 CC = cc
 
 SRC = check_arguments.c  cub3d.c hooks.c mlx_utils.c error_handling.c readmap.c\
-	  utils.c array_utils.c map_validation.c flood_fill.c
+	  utils.c array_utils.c map_validation.c flood_fill.c render_functions.c player_movement.c\
+	  raycaster.c
 
 SRCS = $(addprefix src/, $(SRC))
 
@@ -66,4 +67,12 @@ fclean:		clean
 
 re:			fclean all
 
-.PHONY:		all clean fclean re test
+map1:		
+			make all
+			valgrind --suppressions=mlx.supp --leak-check=full --show-leak-kinds=all ./cub3D maps/map1.cub
+
+map2:		
+			amke all
+			valgrind --suppressions=mlx.supp --leak-check=full --show-leak-kinds=all ./cub3D maps/map2.cub
+
+.PHONY:		all clean fclean re map1 map2
