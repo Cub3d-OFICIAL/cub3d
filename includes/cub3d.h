@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsergio <vsergio@student.42.fr>            +#+  +:+       +#+        */
+/*   By: dionisio <dionisio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:48:11 by vsergio           #+#    #+#             */
-/*   Updated: 2023/07/15 10:11:07 by mpinna-l         ###   ########.fr       */
+/*   Updated: 2023/07/26 09:48:34 by dionisio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,7 @@ void		free_array(char **str_array);
 void		clean_map(t_map_info *map_data);
 void		init_data(t_data *info);
 t_data		square_img(int width, int height, int color, void *mlx);
+void		play_music(void);
 
 // hooks
 int			key_event(int keycode, t_setup *info);
