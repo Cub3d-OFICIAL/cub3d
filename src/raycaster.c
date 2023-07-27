@@ -39,14 +39,12 @@ void cast_ray(float rayAngle, int id, t_setup *set)
 	float	xstep;
 	float	ystep;
 
-	printf("R %i\n", set->rays[id].isRayFacingRight);
 	// HORIZONTAL 
 	yintercept = floor(set->player.posy / TILE_SIZE) * TILE_SIZE;
 	if (set->rays[id].isRayFacingDown)
 		yintercept += TILE_SIZE;
 	
 	xintercept = set->player.posx + (yintercept - set->player.posy) / tan(rayAngle);
-	printf(" x %f y %f\n", xintercept, yintercept);
 	ystep = TILE_SIZE;
 	if (set->rays[id].isRayFacingUp)
 		ystep *= -1;
@@ -173,6 +171,7 @@ void	cast_all_rays(t_setup *set)
 	{
 		cast_ray(rayAngle, strip_id ,set);
 		rayAngle += fov / ray_number;
+		rayAngle = normalize_angle(rayAngle);
 	}
 	free(set->rays);
 	set->rays = NULL;

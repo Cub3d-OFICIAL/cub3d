@@ -46,6 +46,6 @@ void	play_music(void)
 	{
 		aux = system("killall xdg-open");
 		aux = system("xdg-open ./sounds/backgroundSong.mp3 &");
-		printf("%d", aux);
+		(void)aux;
 	}
 }
