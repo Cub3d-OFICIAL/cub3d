@@ -14,11 +14,11 @@
 
 int	is_wall(int x, int y, t_setup *set)
 {
-	int	coordinate_y;
+	int		coordinate_y;
 	char	**map;
 
 	map = set->map_data.map;
-	coordinate_y = floor(set->player.posy/ TILE_SIZE);
+	coordinate_y = floor(set->player.posy / TILE_SIZE);
 	if (map[coordinate_y][x] == '1' || map[coordinate_y][x] == ' ')
 		return (1);
 	if (map[y][x] == '1' || map[y][x] == ' ')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dionisio <dionisio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vsergio <vsergio@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:48:11 by vsergio           #+#    #+#             */
-/*   Updated: 2023/07/26 09:48:34 by dionisio         ###   ########.fr       */
+/*   Updated: 2023/07/15 10:11:07 by mpinna-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,8 @@ typedef struct s_player
 typedef struct s_rays
 {
 	float	rayAngle;
-	float	wallHitX;
-	float	wallHitY;
+	float	wallHitX[2];
+	float	wallHitY[2];
 	float	distance;
 	int		wasHitVertical;
 	int		isRayFacingUp;
@@ -179,10 +179,14 @@ int			is_wall(int x, int y, t_setup *set);
 
 //Raycasting
 void		cast_all_rays(t_setup *set);
+void		vertical_hit(float rayAngle, int id, t_setup *set);
+void		set_vertical_hits(float *intercept, float *step, int id, t_setup *set);
+void		horizontal_hit(float rayAngle, int id, t_setup *set);
+void		set_horizontal_hits(float *intercept, float *step, int id, t_setup *set);
 
 //DDA
 void		dda(t_setup *set, float distance);
-void		dda_points(t_setup *set, float x, float y, float distance, float rayAngle);
+void		dda_points(t_setup *set, float distance, float rayAngle);
 
 // array utils
 int			array_size(char **array);
@@ -196,7 +200,6 @@ void		free_array(char **str_array);
 void		clean_map(t_map_info *map_data);
 void		init_data(t_data *info);
 t_data		square_img(int width, int height, int color, void *mlx);
-void		play_music(void);
 
 // hooks
 int			key_event(int keycode, t_setup *info);

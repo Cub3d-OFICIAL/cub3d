@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dionisio <dionisio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpinna-l <mpinna-l@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 15:57:19 by mpinna-l          #+#    #+#             */
-/*   Updated: 2023/07/26 09:53:09 by dionisio         ###   ########.fr       */
+/*   Updated: 2023/05/20 17:28:35 by mpinna-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,4 @@ void	clean_map(t_map_info *map_data)
 	free(map_data->e_path);
 	free(map_data->w_path);
 	free_array(map_data->map);
-}
-
-void	play_music(void)
-{
-	static int	aux;
-
-	if (1)
-	{
-		aux = system("killall xdg-open");
-		aux = system("xdg-open ./sounds/backgroundSong.mp3 &");
-		(void)aux;
-	}
 }

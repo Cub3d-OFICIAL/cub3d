@@ -10,7 +10,7 @@ CC = cc
 
 SRC = check_arguments.c  cub3d.c hooks.c mlx_utils.c error_handling.c readmap.c\
 	  utils.c array_utils.c map_validation.c flood_fill.c render_functions.c player_movement.c\
-	  raycaster.c
+	  raycaster.c calculate_hits.c
 
 SRCS = $(addprefix src/, $(SRC))
 

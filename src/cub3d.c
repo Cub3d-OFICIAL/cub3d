@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dionisio <dionisio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpinna-l <mpinna-l@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 13:44:43 by mpinna-l          #+#    #+#             */
-/*   Updated: 2023/07/26 09:55:23 by dionisio         ###   ########.fr       */
+/*   Updated: 2023/06/29 16:22:40 by mpinna-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	render_next_frame(t_setup *set)
 	render_minimap(set);
 	mlx_put_image_to_window(set->mlx, set->mlx_win, set->frame.img, 0, 0);
 	cast_all_rays(set);
-	usleep(3000);
+	usleep(100);
 	mlx_destroy_image(set->mlx, set->frame.img);
 	return (0);
 }
@@ -37,7 +37,6 @@ void	start_game(t_setup *set)
 	mlx_hook(set->mlx_win, 2, 1L << 0, key_event, set);
 	mlx_hook(set->mlx_win, 3, 2L << 0, key_event_release, set);
 	mlx_hook(set->mlx_win, 17, 0, close_win, set);
-	play_music();
 	mlx_loop_hook(set->mlx, render_next_frame, set);
 	mlx_loop(set->mlx);
 }
@@ -60,8 +59,8 @@ void	init_setup(t_setup *set)
 	set->player.turn_direction = 0;
 	set->player.walk_direction = 0;
 	set->player.rotation_angle = PI / 2;
-	set->player.move_speed = 1;
-	set->player.rotation_speed = 1 * (PI / 180);
+	set->player.move_speed = 0.2;
+	set->player.rotation_speed = 0.5 * (PI / 180);
 	set->rays = NULL;
 }
 

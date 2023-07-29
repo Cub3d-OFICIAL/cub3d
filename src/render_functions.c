@@ -52,7 +52,7 @@ void	render_player(t_setup *set)
 				- (set->player.width / 2), y + player_y
 				- (set->player.height / 2), rgb_color(255, 0, 0));
 	}
-	dda(set, 32 * MINIMAP_SCALE);
+	dda_points(set, 32 * MINIMAP_SCALE, set->player.rotation_angle);
 }
 
 void	set_color(int *color, int i, int j, t_setup *set)
