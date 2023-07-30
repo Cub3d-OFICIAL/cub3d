@@ -75,7 +75,7 @@ if the data inside it is correct!\n"
 # define DIR_CHARS "NSEW"
 /* _______________________CONSTANTS___________________________ */
 
-# define MINIMAP_SCALE 1
+# define MINIMAP_SCALE 0.1
 # define TILE_SIZE 32
 # define PI 3.14159265
 # define TWO_PI 6.28318530
@@ -172,6 +172,7 @@ void		set_color(int *color, int i, int j, t_setup *set);
 void		render_minimap(t_setup *set);
 void		render_player(t_setup *set);
 void		render_floor_celling(t_setup *set);
+void		render_walls (t_setup *set);
 
 // player moviment
 void		move_player(t_setup *set);
@@ -200,6 +201,7 @@ void		free_array(char **str_array);
 void		clean_map(t_map_info *map_data);
 void		init_data(t_data *info);
 t_data		square_img(int width, int height, int color, void *mlx);
+float		hypotenuse(float x1, float y1, float x2, float y2);
 
 // hooks
 int			key_event(int keycode, t_setup *info);
@@ -207,6 +209,5 @@ int			key_event_release(int keycode, t_setup *info);
 int			close_win(t_setup *info);
 
 void		my_mlx_pixel_put(t_data *info, int x, int y, int color);
-void		render_background(t_data *info);
 
 #endif

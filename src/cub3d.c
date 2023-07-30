@@ -17,8 +17,8 @@ int	render_next_frame(t_setup *set)
 	move_player(set);
 	render_floor_celling(set);
 	render_minimap(set);
-	mlx_put_image_to_window(set->mlx, set->mlx_win, set->frame.img, 0, 0);
 	cast_all_rays(set);
+	mlx_put_image_to_window(set->mlx, set->mlx_win, set->frame.img, 0, 0);
 	usleep(100);
 	mlx_destroy_image(set->mlx, set->frame.img);
 	return (0);

@@ -12,6 +12,29 @@
 
 #include "cub3d.h"
 
+void	render_walls (t_setup *set)
+{
+	int	offset;
+	int	x;
+	int y;
+	int	max_distance;
+	int	wall_height;
+
+	max_distance = sqrt(set->map_data.win_height * set->map_data.win_height
+			 + set->map_data.win_width * set->map_data.win_width);
+
+	x = -1;
+	while (++x < set->map_data.win_width)
+	{
+		wall_height = set->map_data.win_height * (1 - set->rays[x].distance / max_distance);
+		offset = (set->map_data.win_height - wall_height) / 2;
+		printf("%i\n", offset);
+		y = -1;
+		while (++y < wall_height)
+		 	my_mlx_pixel_put(&set->frame, x, y + offset, BLACK + y);
+	}
+}
+
 void	render_floor_celling(t_setup *set)
 {
 	int	x;
@@ -93,3 +116,4 @@ void	render_minimap(t_setup *set)
 	}
 	render_player(set);
 }
+

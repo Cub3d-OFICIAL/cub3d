@@ -25,7 +25,7 @@ void	set_horizontal_hits(float *intercept, float *step, int id, t_setup *set)
 	{
 		x_to_check = (int)floor(next_toach[0] / TILE_SIZE);
 		y_to_check = (int)floor(next_toach[1] / TILE_SIZE);
-		if (set->rays[id].isRayFacingUp)
+		if (set->rays[id].isRayFacingUp && y_to_check)
 			y_to_check -= 1;
 		if (set->map_data.map[y_to_check][x_to_check] == '1')
 		{
@@ -51,7 +51,7 @@ void	horizontal_hit(float rayAngle, int id, t_setup *set)
 	intercept[1] = floor(set->player.posy / TILE_SIZE) * TILE_SIZE;
 	if (set->rays[id].isRayFacingDown)
 		intercept[1] += TILE_SIZE;
-	intercept[0] = set->player.posx +(intercept[1] - set->player.posy) / tg;
+	intercept[0] = set->player.posx + (intercept[1] - set->player.posy) / tg;
 	step[1] = TILE_SIZE;
 	if (set->rays[id].isRayFacingUp)
 		step[1] *= -1;
@@ -71,12 +71,12 @@ void	set_vertical_hits(float *intercept, float *step, int id, t_setup *set)
 
 	next_toach[0] = intercept[0];
 	next_toach[1] = intercept[1];
-	while (next_toach[0] >= 0 && next_toach[0] <= set->map_data.win_width
-		&& next_toach[1] >= 0 && next_toach[1] <= set->map_data.win_height)
+	while (next_toach[0] >= 0 && next_toach[0] < set->map_data.win_width
+		&& next_toach[1] >= 0 && next_toach[1] < set->map_data.win_height)
 	{
 		x_to_check = (int)floor(next_toach[0] / TILE_SIZE);
 		y_to_check = (int)floor(next_toach[1] / TILE_SIZE);
-		if (set->rays[id].isRayFacingLeft)
+		if (set->rays[id].isRayFacingLeft && x_to_check)
 			x_to_check -= 1;
 		if (set->map_data.map[y_to_check][x_to_check] == '1')
 		{

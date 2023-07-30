@@ -72,6 +72,7 @@ void	cast_all_rays(t_setup *set)
 		ray_angle += fov / ray_number;
 		ray_angle = normalize_angle(ray_angle);
 	}
+	render_walls(set);
 	free(set->rays);
 	set->rays = NULL;
 }
