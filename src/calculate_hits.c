@@ -25,9 +25,9 @@ void	set_horizontal_hits(float *intercept, float *step, int id, t_setup *set)
 	{
 		x_to_check = (int)floor(next_toach[0] / TILE_SIZE);
 		y_to_check = (int)floor(next_toach[1] / TILE_SIZE);
-		if (set->rays[id].isRayFacingUp && y_to_check)
+		if (set->rays[id].isRayFacingUp && y_to_check )
 			y_to_check -= 1;
-		if (set->map_data.map[y_to_check][x_to_check] == '1')
+		if (x_to_check < set->map_data.col_nbr &&  y_to_check < set->map_data.row_nbr && set->map_data.map[y_to_check][x_to_check] == '1')
 		{
 			set->rays[id].wallHitX[0] = next_toach[0];
 			set->rays[id].wallHitY[0] = next_toach[1];
@@ -78,7 +78,7 @@ void	set_vertical_hits(float *intercept, float *step, int id, t_setup *set)
 		y_to_check = (int)floor(next_toach[1] / TILE_SIZE);
 		if (set->rays[id].isRayFacingLeft && x_to_check)
 			x_to_check -= 1;
-		if (set->map_data.map[y_to_check][x_to_check] == '1')
+		if (x_to_check < set->map_data.col_nbr &&  y_to_check < set->map_data.row_nbr && set->map_data.map[y_to_check][x_to_check] == '1')
 		{
 			set->rays[id].wallHitX[1] = next_toach[0];
 			set->rays[id].wallHitY[1] = next_toach[1];

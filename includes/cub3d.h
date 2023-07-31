@@ -77,8 +77,8 @@ if the data inside it is correct!\n"
 
 # define MINIMAP_SCALE 0.1
 # define TILE_SIZE 32
-# define PI 3.14159265
-# define TWO_PI 6.28318530
+# define PI 3.14159265359
+# define TWO_PI 6.28318530718
 
 /* ________________________Structs_________________________ */
 
@@ -202,6 +202,7 @@ void		clean_map(t_map_info *map_data);
 void		init_data(t_data *info);
 t_data		square_img(int width, int height, int color, void *mlx);
 float		hypotenuse(float x1, float y1, float x2, float y2);
+float		normalize_angle(float angle);
 
 // hooks
 int			key_event(int keycode, t_setup *info);

@@ -61,7 +61,7 @@ void	cast_all_rays(t_setup *set)
 	int		ray_number;
 
 	ray_number = set->map_data.win_width;
-	fov = 60 * PI / 180;
+	fov = 30 * PI / 180;
 	ray_angle = set->player.rotation_angle - (fov / 2);
 	set->rays = malloc(sizeof(t_rays) * ray_number);
 	ray_angle = normalize_angle(ray_angle);

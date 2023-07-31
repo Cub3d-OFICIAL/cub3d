@@ -58,6 +58,7 @@ void	move_player(t_setup *set)
 	move_step = set->player.walk_direction * set->player.move_speed;
 	set->player.rotation_angle += set->player.turn_direction
 		* set->player.rotation_speed;
+	set->player.rotation_angle = normalize_angle(set->player.rotation_angle);
 	new_posx = set->player.posx + (cos(set->player.rotation_angle) * move_step);
 	new_posy = set->player.posy + (sin(set->player.rotation_angle) * move_step);
 	posx_on_map = floor(new_posx / TILE_SIZE);
