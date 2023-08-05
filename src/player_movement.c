@@ -32,17 +32,29 @@ void	check_states(t_setup *set)
 	if (set->states[0] || set->states[1])
 	{
 		if (set->states[0] && !set->states[1])
+		{
 			set->player.turn_direction = 1;
+			set->player.rot_speed *= 1;
+		}
 		else if (!set->states[0] && set->states[1])
+		{
 			set->player.turn_direction = -1;
+			set->player.rot_speed *= -1;
+		}
 	}
 	set->player.walk_direction = 0;
 	if (set->states[2] || set->states[3])
 	{
 		if (set->states[2] && !set->states[3])
+		{
 			set->player.walk_direction = 1;
+			set->player.mov_speed *= 1;
+		}
 		else if (!set->states[2] && set->states[3])
+		{
 			set->player.walk_direction = -1;
+			set->player.mov_speed *= -1;
+		}
 	}
 }
 
@@ -53,8 +65,19 @@ void	move_player(t_setup *set)
 	float	new_posy;
 	int		posx_on_map;
 	int		posy_on_map;
-
+	
 	check_states(set);
+	double oldDirX = set->player.dir_x;
+	set->player.dir_x = set->player.dir_x* cos(set->player.rot_speed) - set->player.dir_y * sin(set->player.rot_speed);
+	set->player.dir_y = oldDirX * sin(set->player.rot_speed) + set->player.dir_y * cos(set->player.rot_speed);
+	double oldPlaneX = set->player.plane_x;
+	set->player.plane_x = set->player.plane_x * cos(set->player.rot_speed) - set->player.plane_y * sin(set->player.rot_speed);
+	set->player.plane_y = oldPlaneX * sin(set->player.rot_speed) + set->player.plane_y * cos(set->player.rot_speed);
+
+	if(set->map_data.map[(int)(set->player.plane_x + set->player.dir_x * set->player.mov_speed)][(int)set->player.plane_y] == '1')
+		set->player.plane_x += set->player.dir_x * set->player.mov_speed;
+	if(set->map_data.map[(int)set->player.plane_x][(int)(set->player.plane_y + set->player.dir_y  * set->player.mov_speed)] == '1')
+		set->player.plane_y += set->player.dir_y * set->player.mov_speed;
 	move_step = set->player.walk_direction * set->player.move_speed;
 	set->player.rotation_angle += set->player.turn_direction
 		* set->player.rotation_speed;

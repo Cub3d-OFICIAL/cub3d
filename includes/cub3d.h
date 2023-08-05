@@ -75,7 +75,7 @@ if the data inside it is correct!\n"
 # define DIR_CHARS "NSEW"
 /* _______________________CONSTANTS___________________________ */
 
-# define MINIMAP_SCALE 1
+# define MINIMAP_SCALE 0.2
 # define TILE_SIZE 32
 # define PI 3.14159265
 # define TWO_PI 6.28318530
@@ -120,7 +120,13 @@ typedef struct s_player
 	int		walk_direction;
 	float	rotation_angle;
 	float	move_speed;
-	float	rotation_speed;	
+	float	rotation_speed;
+	float	dir_x;
+	float	dir_y;
+	float	plane_x;
+	float	plane_y;
+	float	rot_speed;
+	float	mov_speed;
 }	t_player;
 
 typedef struct s_rays

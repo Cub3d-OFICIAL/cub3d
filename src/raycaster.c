@@ -53,27 +53,129 @@ void	cast_ray(float rayAngle, int id, t_setup *set)
 	dda_points(set, set->rays[id].distance, rayAngle);
 }
 
+void	strip(int x, int drawStart, int drawEnd, int color, t_setup *set)
+{	
+	while (drawStart <= drawEnd)
+	{
+		my_mlx_pixel_put(&set->frame, x, drawStart, color); 
+		drawStart++;
+	}
+}
+
 void	cast_all_rays(t_setup *set)
 {
-	float	fov;
-	float	ray_angle;
-	int		strip_id;
-	int		ray_number;
+	int		x;
+	float	width;
+	float	cameraX;
+	float	rayDirX;
+	float 	rayDirY;
 
-	ray_number = set->map_data.win_width;
-	fov = 60 * PI / 180;
-	ray_angle = set->player.rotation_angle - (fov / 2);
-	set->rays = malloc(sizeof(t_rays) * ray_number);
-	ray_angle = normalize_angle(ray_angle);
-	strip_id = -1;
-	while (++strip_id < ray_number)
+	width = set->map_data.win_width;
+	x = -1;
+	while (++x < set->map_data.win_width)
 	{
-		cast_ray(ray_angle, strip_id, set);
-		ray_angle += fov / ray_number;
-		ray_angle = normalize_angle(ray_angle);
+		cameraX = 2 * x / width - 1;
+		rayDirX = set->player.dir_x + set->player.plane_x * cameraX;
+		rayDirY = set->player.dir_y + set->player.plane_y * cameraX;
+
+		int mapX = set->player.posx / TILE_SIZE;
+		int mapY = set->player.posy / TILE_SIZE;
+
+      //length of ray from current position to next x or y-side
+      float sideDistX;
+      float sideDistY;
+
+       //length of ray from one x or y-side to next x or y-side
+    	float deltaDistX;
+		if (rayDirX == 0)
+			deltaDistX = 2147483647;
+		else
+			deltaDistX = fabs(1 / rayDirX);
+		float deltaDistY;
+		if (rayDirY == 0)
+			deltaDistY = 2147483647;
+		else
+			deltaDistY = fabs(1 / rayDirY);
+
+      float perpWallDist;
+
+      //what direction to step in x or y-direction (either +1 or -1)
+      int stepX;
+      int stepY;
+
+      int hit = 0; //was there a wall hit?
+      int side; //was a NS or a EW wall hit?
+
+	  if (rayDirX < 0)
+      {
+        stepX = -1;
+        sideDistX = (set->player.posx / TILE_SIZE - mapX) * deltaDistX;
+      }
+      else
+      {
+        stepX = 1;
+        sideDistX = (mapX + 1.0 - set->player.posx / TILE_SIZE) * deltaDistX;
+      }
+      if (rayDirY < 0)
+      {
+        stepY = -1;
+        sideDistY = (set->player.posy / TILE_SIZE - mapY) * deltaDistY;
+      }
+      else
+      {
+        stepY = 1;
+        sideDistY = (mapY + 1.0 - set->player.posy / TILE_SIZE) * deltaDistY;
 	}
-	free(set->rays);
-	set->rays = NULL;
+	 //perform DDA
+	while (hit == 0)
+	{
+		//jump to next map square, either in x-direction, or in y-direction
+		if (sideDistX < sideDistY)
+		{
+			sideDistX += deltaDistX;
+			mapX += stepX;
+			side = 0;
+		}
+		else
+		{
+			sideDistY += deltaDistY;
+			mapY += stepY;
+			side = 1;
+		}
+		//Check if ray has hit a wall
+		if (set->map_data.map[mapY][mapX] > 0)
+			hit = 1;
+	}
+	 //Calculate distance projected on camera direction (Euclidean distance would give fisheye effect!)	
+	if(side == 0)
+		perpWallDist = (sideDistX - deltaDistX);
+	else
+		perpWallDist = (sideDistY - deltaDistY);
+
+	
+	//Calculate height of line to draw on screen
+      int lineHeight = (int)(set->map_data.win_height / perpWallDist);
+
+      //calculate lowest and highest pixel to fill in current stripe
+		int drawStart = -lineHeight / 2 + set->map_data.win_height / 2;
+		if(drawStart < 0)
+			drawStart = 0;
+		int drawEnd = lineHeight / 2 + set->map_data.win_height / 2;
+		if(drawEnd >= set->map_data.win_height)
+			drawEnd = set->map_data.win_height - 1;
+
+		 //choose wall color
+      int color = WHITE;
+      //give x and y sides different brightness
+      if (side == 1) 
+		color = color / 2;
+
+      //draw the pixels of the stripe as a vertical line
+      strip(x, drawStart, drawEnd, color, set);
+		printf("%f\n", perpWallDist );
+    
+	}
+
 }
 
 void	dda_points(t_setup *set, float distance, float rayAngle)
