@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpinna-l <mpinna-l@student.42.rio>         +#+  +:+       +#+        */
+/*   By: dionisio <dionisio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 13:44:43 by mpinna-l          #+#    #+#             */
-/*   Updated: 2023/06/29 16:22:40 by mpinna-l         ###   ########.fr       */
+/*   Updated: 2023/08/08 15:06:15 by dionisio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	start_game(t_setup *set)
 	mlx_do_key_autorepeatoff(set->mlx);
 	mlx_hook(set->mlx_win, 2, 1L << 0, key_event, set);
 	mlx_hook(set->mlx_win, 3, 2L << 0, key_event_release, set);
-	mlx_hook(set->mlx_win, 17, 0, close_win, set);
 	mlx_loop_hook(set->mlx, render_next_frame, set);
+	mlx_hook(set->mlx_win, 17, 0, close_win, set);
 	mlx_loop(set->mlx);
 }
 

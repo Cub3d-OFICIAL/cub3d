@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpinna-l <mpinna-l@student.42.rio>         +#+  +:+       +#+        */
+/*   By: dionisio <dionisio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 16:43:15 by mpinna-l          #+#    #+#             */
-/*   Updated: 2023/07/15 19:17:59 by mpinna-l         ###   ########.fr       */
+/*   Updated: 2023/08/08 15:27:03 by dionisio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ void	cast_all_rays(t_setup *set)
 		rayDirX = set->player.dir_x + set->player.plane_x * cameraX;
 		rayDirY = set->player.dir_y + set->player.plane_y * cameraX;
 
-		int mapX = set->player.posx / TILE_SIZE;
-		int mapY = set->player.posy / TILE_SIZE;
+		int mapX = set->player.posx;
+		int mapY = set->player.posy;
 
       //length of ray from current position to next x or y-side
       float sideDistX;
@@ -88,12 +88,12 @@ void	cast_all_rays(t_setup *set)
        //length of ray from one x or y-side to next x or y-side
     	float deltaDistX;
 		if (rayDirX == 0)
-			deltaDistX = 2147483647;
+			deltaDistX = 1e30;
 		else
 			deltaDistX = fabs(1 / rayDirX);
 		float deltaDistY;
 		if (rayDirY == 0)
-			deltaDistY = 2147483647;
+			deltaDistY = 1e30;
 		else
 			deltaDistY = fabs(1 / rayDirY);
 
@@ -109,22 +109,22 @@ void	cast_all_rays(t_setup *set)
 	  if (rayDirX < 0)
       {
         stepX = -1;
-        sideDistX = (set->player.posx / TILE_SIZE - mapX) * deltaDistX;
+        sideDistX = (set->player.posx - mapX) * deltaDistX;
       }
       else
       {
         stepX = 1;
-        sideDistX = (mapX + 1.0 - set->player.posx / TILE_SIZE) * deltaDistX;
+        sideDistX = (mapX + 1.0 - set->player.posx) * deltaDistX;
       }
       if (rayDirY < 0)
       {
         stepY = -1;
-        sideDistY = (set->player.posy / TILE_SIZE - mapY) * deltaDistY;
+        sideDistY = (set->player.posy - mapY) * deltaDistY;
       }
       else
       {
         stepY = 1;
-        sideDistY = (mapY + 1.0 - set->player.posy / TILE_SIZE) * deltaDistY;
+        sideDistY = (mapY + 1.0 - set->player.posy) * deltaDistY;
 	}
 	 //perform DDA
 	while (hit == 0)

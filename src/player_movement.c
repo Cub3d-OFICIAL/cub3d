@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_movement.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpinna-l <mpinna-l@student.42.rio>         +#+  +:+       +#+        */
+/*   By: dionisio <dionisio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 16:17:20 by mpinna-l          #+#    #+#             */
-/*   Updated: 2023/07/07 16:17:22 by mpinna-l         ###   ########.fr       */
+/*   Updated: 2023/08/08 15:43:50 by dionisio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,17 +74,17 @@ void	move_player(t_setup *set)
 	set->player.plane_x = set->player.plane_x * cos(set->player.rot_speed) - set->player.plane_y * sin(set->player.rot_speed);
 	set->player.plane_y = oldPlaneX * sin(set->player.rot_speed) + set->player.plane_y * cos(set->player.rot_speed);
 
-	if(set->map_data.map[(int)(set->player.plane_x + set->player.dir_x * set->player.mov_speed)][(int)set->player.plane_y] == '1')
-		set->player.plane_x += set->player.dir_x * set->player.mov_speed;
-	if(set->map_data.map[(int)set->player.plane_x][(int)(set->player.plane_y + set->player.dir_y  * set->player.mov_speed)] == '1')
-		set->player.plane_y += set->player.dir_y * set->player.mov_speed;
+	if(set->map_data.map[(int)set->player.posy][(int)(set->player.posx + set->player.dir_x * set->player.mov_speed)] == '1')
+		set->player.posx += set->player.dir_x * set->player.mov_speed;
+	if(set->map_data.map[(int)(set->player.posy + set->player.dir_y  * set->player.mov_speed)][(int)set->player.posx]== '1')
+		set->player.posy += set->player.dir_y * set->player.mov_speed;
 	move_step = set->player.walk_direction * set->player.move_speed;
 	set->player.rotation_angle += set->player.turn_direction
 		* set->player.rotation_speed;
 	new_posx = set->player.posx + (cos(set->player.rotation_angle) * move_step);
 	new_posy = set->player.posy + (sin(set->player.rotation_angle) * move_step);
-	posx_on_map = floor(new_posx / TILE_SIZE);
-	posy_on_map = floor(new_posy / TILE_SIZE);
+	posx_on_map = floor(new_posx);
+	posy_on_map = floor(new_posy);
 	if (!is_wall(posx_on_map, posy_on_map, set))
 	{
 		set->player.posx = new_posx;
