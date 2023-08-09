@@ -10,7 +10,7 @@ CC = cc
 
 SRC = check_arguments.c  cub3d.c hooks.c mlx_utils.c error_handling.c readmap.c\
 	  utils.c array_utils.c map_validation.c flood_fill.c render_functions.c player_movement.c\
-	  raycaster.c calculate_hits.c
+	  raycaster.c
 
 SRCS = $(addprefix src/, $(SRC))
 
@@ -39,7 +39,7 @@ LIBFT = ./includes/libft/libft.a
 # Compile Rules 
 
 %.o: %.c
-			@${CC} -c ${FLAGS} ${INCLUDES} ${MLX_O} $< -o $@
+			@${CC} -O0 -c ${FLAGS} ${INCLUDES} ${MLX_O} $< -o $@
 
 all:		$(NAME)
 

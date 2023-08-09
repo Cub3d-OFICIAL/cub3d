@@ -12,18 +12,42 @@
 
 #include "cub3d.h"
 
-int	is_wall(int x, int y, t_setup *set)
+void	move_validation(t_setup *set)
 {
-	int		coordinate_y;
-	char	**map;
+	int		x;
+	int		y;
+	int		newx;
+	int		newy;
+	float	move_rate;
 
-	map = set->map_data.map;
-	coordinate_y = floor(set->player.posy / TILE_SIZE);
-	if (map[coordinate_y][x] == '1' || map[coordinate_y][x] == ' ')
-		return (1);
-	if (map[y][x] == '1' || map[y][x] == ' ')
-		return (1);
-	return (0);
+	x = (int)set->player.posx;
+	y = (int)set->player.posy;
+	move_rate = set->player.mov_speed * set->player.walk_direction;
+	newx = (int)(set->player.posx + set->player.dir_x * move_rate);
+	newy = (int)(set->player.posy + set->player.dir_y * move_rate);
+	if (set->map_data.map[y][newx] != '1')
+		set->player.posx += set->player.dir_x * move_rate;
+	if (set->map_data.map[newy][x] != '1')
+		set->player.posy += set->player.dir_y * move_rate;
+}
+
+void	turn_player(t_setup *set)
+{
+	float	old_dir_x;
+	float	old_plane_x;
+	float	turn_rate;
+
+	old_dir_x = set->player.dir_x;
+	old_plane_x = set->player.plane_x;
+	turn_rate = set->player.rot_speed * set->player.turn_direction;
+	set->player.dir_x = set->player.dir_x * cos(turn_rate)
+		- set->player.dir_y * sin(turn_rate);
+	set->player.dir_y = old_dir_x * sin(turn_rate)
+		+ set->player.dir_y * cos(turn_rate);
+	set->player.plane_x = set->player.plane_x * cos(turn_rate)
+		- set->player.plane_y * sin(turn_rate);
+	set->player.plane_y = old_plane_x * sin(turn_rate)
+		+ set->player.plane_y * cos(turn_rate);
 }
 
 void	check_states(t_setup *set)
@@ -32,9 +56,9 @@ void	check_states(t_setup *set)
 	if (set->states[0] || set->states[1])
 	{
 		if (set->states[0] && !set->states[1])
-			set->player.turn_direction = 1;
-		else if (!set->states[0] && set->states[1])
 			set->player.turn_direction = -1;
+		else if (!set->states[0] && set->states[1])
+			set->player.turn_direction = 1;
 	}
 	set->player.walk_direction = 0;
 	if (set->states[2] || set->states[3])
@@ -48,23 +72,7 @@ void	check_states(t_setup *set)
 
 void	move_player(t_setup *set)
 {
-	float	move_step;
-	float	new_posx;
-	float	new_posy;
-	int		posx_on_map;
-	int		posy_on_map;
-
 	check_states(set);
-	move_step = set->player.walk_direction * set->player.move_speed;
-	set->player.rotation_angle += set->player.turn_direction
-		* set->player.rotation_speed;
-	new_posx = set->player.posx + (cos(set->player.rotation_angle) * move_step);
-	new_posy = set->player.posy + (sin(set->player.rotation_angle) * move_step);
-	posx_on_map = floor(new_posx / TILE_SIZE);
-	posy_on_map = floor(new_posy / TILE_SIZE);
-	if (!is_wall(posx_on_map, posy_on_map, set))
-	{
-		set->player.posx = new_posx;
-		set->player.posy = new_posy;
-	}
+	turn_player(set);
+	move_validation(set);
 }

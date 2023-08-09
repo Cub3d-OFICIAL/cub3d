@@ -1,0 +1,25 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+	  {
+		"name": "C/C++ Launch",
+		"type": "cppdbg",
+		"request": "launch",
+		"program": "${workspaceFolder}/cub3D",
+		"args": ["maps/map3.cub"],
+		"stopAtEntry": false,
+		"cwd": "${workspaceFolder}",
+		"environment": [],
+		"externalConsole": false,
+		"MIMode": "gdb",
+		"miDebuggerPath": "gdb",
+		"setupCommands": [
+			{
+				"description": "Disable compiler optimizations",
+				"text": "-gdb-set mi-async on",
+				"ignoreFailures": true
+			}
+		]
+	  }
+	]
+}

@@ -44,6 +44,5 @@ int	close_win(t_setup *set)
 {
 	mlx_destroy_window(set->mlx, set->mlx_win);
 	clean_map(&set->map_data);
-	free(set->rays);
 	exit(EXIT_FAILURE);
 }
