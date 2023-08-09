@@ -56,9 +56,9 @@ void	check_states(t_setup *set)
 	if (set->states[0] || set->states[1])
 	{
 		if (set->states[0] && !set->states[1])
-			set->player.turn_direction = -1;
-		else if (!set->states[0] && set->states[1])
 			set->player.turn_direction = 1;
+		else if (!set->states[0] && set->states[1])
+			set->player.turn_direction = -1;
 	}
 	set->player.walk_direction = 0;
 	if (set->states[2] || set->states[3])

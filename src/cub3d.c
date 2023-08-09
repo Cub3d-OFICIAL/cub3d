@@ -41,6 +41,30 @@ void	start_game(t_setup *set)
 	mlx_loop(set->mlx);
 }
 
+void	set_player_direction(t_setup *set)
+{
+	if (set->map_data.orientation == 'S')
+	{
+		set->player.dir_y = 1;
+		set->player.plane_x = -0.66;
+	}
+	if (set->map_data.orientation == 'N')
+	{
+		set->player.dir_y = -1;
+		set->player.plane_x = 0.66;
+	}
+	if (set->map_data.orientation == 'W')
+	{
+		set->player.dir_x = -1;
+		set->player.plane_y = -0.66;
+	}
+	if (set->map_data.orientation == 'E')
+	{
+		set->player.dir_x = 1;
+		set->player.plane_y = 0.66;
+	}
+}
+
 void	init_setup(t_setup *set)
 {
 	set->states[0] = 0;
@@ -55,10 +79,11 @@ void	init_setup(t_setup *set)
 	set->player.width = 8 * MINIMAP_SCALE;
 	set->player.turn_direction = 0;
 	set->player.walk_direction = 0;
-	set->player.dir_x = -1;
+	set->player.dir_x = 0;
 	set->player.dir_y = 0;
 	set->player.plane_x = 0;
-	set->player.plane_y = 0.66;
+	set->player.plane_y = 0;
+	set_player_direction(set);
 	set->player.mov_speed = 0.01;
 	set->player.rot_speed = 0.01;
 }
@@ -76,21 +101,3 @@ int	main(int argc, char **argv)
 	clean_map(&game_setup.map_data);
 	return (0);
 }
-
-// t_data	square_img(int width, int height, int color, void *mlx)
-// {
-// 	t_data	sqr;
-// 	int		x;
-// 	int		y;
-
-// 	x = -1;
-// 	sqr.img = mlx_new_image(mlx, width, height);
-// 	sqr.addr = mlx_get_data_addr(sqr.img, &sqr.bpp, &sqr.line_len, &sqr.endian);
-// 	while (++x < width)
-// 	{
-// 		y = -1;
-// 		while (++y < height)
-// 			my_mlx_pixel_put(&sqr, x, y, color);
-// 	}	
-// 	return (sqr);
-// }
