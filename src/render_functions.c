@@ -41,8 +41,8 @@ void	render_player(t_setup *set)
 	int	player_x;
 	int	player_y;
 
-	player_x = set->player.posx * MINIMAP_SCALE;
-	player_y = set->player.posy * MINIMAP_SCALE;
+	player_x = set->player.posx * TILE_SIZE * MINIMAP_SCALE;
+	player_y = set->player.posy * TILE_SIZE * MINIMAP_SCALE;
 	x = -1;
 	while (++x < set->player.width)
 	{
@@ -52,7 +52,6 @@ void	render_player(t_setup *set)
 				- (set->player.width / 2), y + player_y
 				- (set->player.height / 2), rgb_color(255, 0, 0));
 	}
-	dda_points(set, (32 + 1 / MINIMAP_SCALE) * MINIMAP_SCALE, set->player.rotation_angle);
 }
 
 void	set_color(int *color, int i, int j, t_setup *set)
@@ -92,4 +91,14 @@ void	render_minimap(t_setup *set)
 		}
 	}
 	render_player(set);
+}
+
+void	render_strip(int x, int drawStart, int drawEnd, t_setup *set)
+{	
+	while (drawStart <= drawEnd)
+	{
+		my_mlx_pixel_put(&set->frame, x, drawStart,
+			set->map_data.color_picker);
+		drawStart++;
+	}
 }

@@ -16,8 +16,8 @@ int	render_next_frame(t_setup *set)
 {
 	move_player(set);
 	render_floor_celling(set);
-	render_minimap(set);
 	cast_all_rays(set);
+	render_minimap(set);
 	usleep(100);
 	mlx_put_image_to_window(set->mlx, set->mlx_win, set->frame.img, 0, 0);
 	mlx_destroy_image(set->mlx, set->frame.img);
@@ -43,31 +43,24 @@ void	start_game(t_setup *set)
 
 void	init_setup(t_setup *set)
 {
-	int	half_tile;
-
-	half_tile = TILE_SIZE / 2;
 	set->states[0] = 0;
 	set->states[1] = 0;
 	set->states[2] = 0;
 	set->states[3] = 0;
 	set->map_data.win_height = set->map_data.row_nbr * TILE_SIZE;
 	set->map_data.win_width = set->map_data.col_nbr * TILE_SIZE;
-	set->player.posx = (set->map_data.player_posx * TILE_SIZE) + half_tile;
-	set->player.posy = (set->map_data.player_posy * TILE_SIZE) + half_tile;
+	set->player.posx = set->map_data.player_posx + 0.5;
+	set->player.posy = set->map_data.player_posy + 0.5;
 	set->player.height = 8 * MINIMAP_SCALE;
 	set->player.width = 8 * MINIMAP_SCALE;
 	set->player.turn_direction = 0;
 	set->player.walk_direction = 0;
-	set->player.rotation_angle = PI / 2;
-	set->player.move_speed = 1;
-	set->player.rotation_speed = 2 * (PI / 180);
 	set->player.dir_x = -1;
 	set->player.dir_y = 0;
 	set->player.plane_x = 0;
 	set->player.plane_y = 0.66;
-	set->player.mov_speed = 0.001;
-	set->player.rot_speed = 0.002;
-	set->rays = NULL;
+	set->player.mov_speed = 0.01;
+	set->player.rot_speed = 0.01;
 }
 
 int	main(int argc, char **argv)

@@ -99,6 +99,7 @@ typedef struct s_map_info
 	int		player_posy;
 	int		win_width;
 	int		win_height;
+	int		color_picker;
 }	t_map_info;
 
 typedef struct s_data
@@ -118,9 +119,6 @@ typedef struct s_player
 	float	height;
 	int		turn_direction;
 	int		walk_direction;
-	float	rotation_angle;
-	float	move_speed;
-	float	rotation_speed;
 	float	dir_x;
 	float	dir_y;
 	float	plane_x;
@@ -131,16 +129,23 @@ typedef struct s_player
 
 typedef struct s_rays
 {
-	float	rayAngle;
-	float	wallHitX[2];
-	float	wallHitY[2];
+	float	camera_x;
+	float	ray_dirx;
+	float	ray_diry;
+	int		map_x;
+	int		map_y;
+	float	side_distx;
+	float	side_disty;
+	float	delta_distx;
+	float	delta_disty;
 	float	distance;
-	int		wasHitVertical;
-	int		isRayFacingUp;
-	int		isRayFacingDown;
-	int		isRayFacingRight;
-	int		isRayFacingLeft;
-	int		wallHitContent;
+	int		step_x;
+	int		step_y;
+	int		hit;
+	int		side;
+	int		line_height;
+	int		draw_start;
+	int		draw_end;
 }	t_rays;
 
 typedef struct s_setup
@@ -151,7 +156,6 @@ typedef struct s_setup
 	t_map_info	map_data;
 	t_player	player;
 	int			states[4];
-	t_rays		*rays;
 }	t_setup;	
 
 
@@ -178,10 +182,11 @@ void		set_color(int *color, int i, int j, t_setup *set);
 void		render_minimap(t_setup *set);
 void		render_player(t_setup *set);
 void		render_floor_celling(t_setup *set);
+void		render_strip(int x, int drawStart, int drawEnd, t_setup *set);
 
 // player moviment
 void		move_player(t_setup *set);
-int			is_wall(int x, int y, t_setup *set);
+void		move_validation(t_setup *set);
 
 //Raycasting
 void		cast_all_rays(t_setup *set);
@@ -189,10 +194,6 @@ void		vertical_hit(float rayAngle, int id, t_setup *set);
 void		set_vertical_hits(float *intercept, float *step, int id, t_setup *set);
 void		horizontal_hit(float rayAngle, int id, t_setup *set);
 void		set_horizontal_hits(float *intercept, float *step, int id, t_setup *set);
-
-//DDA
-void		dda(t_setup *set, float distance);
-void		dda_points(t_setup *set, float distance, float rayAngle);
 
 // array utils
 int			array_size(char **array);
