@@ -20,6 +20,10 @@
 #  define L_KEY 65361
 #  define U_KEY 65362
 #  define D_KEY 65364
+#  define W 119
+#  define S 115
+#  define A 97
+#  define D 100
 
 # else
 #  include "../mlx/mlx.h"
@@ -28,6 +32,10 @@
 #  define L_KEY 123
 #  define U_KEY 126
 #  define D_KEY 125
+#  define W 13
+#  define S 1
+#  define A 0
+#  define D 2
 
 # endif
 // Minilib X funtions
@@ -79,7 +87,8 @@ if the data inside it is correct!\n"
 # define TILE_SIZE 32
 # define PI 3.14159265
 # define TWO_PI 6.28318530
-
+# define HEIGHT 720
+# define WIDTH 1280
 /* ________________________Structs_________________________ */
 
 typedef struct s_map_info
@@ -155,7 +164,7 @@ typedef struct s_setup
 	t_data		frame;
 	t_map_info	map_data;
 	t_player	player;
-	int			states[4];
+	int			states[6];
 }	t_setup;	
 
 
@@ -190,10 +199,6 @@ void		move_validation(t_setup *set);
 
 //Raycasting
 void		cast_all_rays(t_setup *set);
-void		vertical_hit(float rayAngle, int id, t_setup *set);
-void		set_vertical_hits(float *intercept, float *step, int id, t_setup *set);
-void		horizontal_hit(float rayAngle, int id, t_setup *set);
-void		set_horizontal_hits(float *intercept, float *step, int id, t_setup *set);
 
 // array utils
 int			array_size(char **array);
@@ -205,8 +210,6 @@ char		*add_n_char(char *str, char c, int n);
 // utils
 void		free_array(char **str_array);
 void		clean_map(t_map_info *map_data);
-void		init_data(t_data *info);
-t_data		square_img(int width, int height, int color, void *mlx);
 
 // hooks
 int			key_event(int keycode, t_setup *info);
@@ -214,6 +217,5 @@ int			key_event_release(int keycode, t_setup *info);
 int			close_win(t_setup *info);
 
 void		my_mlx_pixel_put(t_data *info, int x, int y, int color);
-void		render_background(t_data *info);
 
 #endif

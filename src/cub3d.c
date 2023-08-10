@@ -26,13 +26,8 @@ int	render_next_frame(t_setup *set)
 
 void	start_game(t_setup *set)
 {
-	int	win_width;
-	int	win_height;
-
-	win_width = set->map_data.win_width;
-	win_height = set->map_data.win_height;
 	set->mlx = mlx_init();
-	set->mlx_win = mlx_new_window(set->mlx, win_width, win_height, CUB);
+	set->mlx_win = mlx_new_window(set->mlx, WIDTH, HEIGHT, CUB);
 	mlx_do_key_autorepeatoff(set->mlx);
 	mlx_hook(set->mlx_win, 2, 1L << 0, key_event, set);
 	mlx_hook(set->mlx_win, 3, 2L << 0, key_event_release, set);
@@ -71,8 +66,10 @@ void	init_setup(t_setup *set)
 	set->states[1] = 0;
 	set->states[2] = 0;
 	set->states[3] = 0;
-	set->map_data.win_height = set->map_data.row_nbr * TILE_SIZE;
-	set->map_data.win_width = set->map_data.col_nbr * TILE_SIZE;
+	set->states[4] = 0;
+	set->states[5] = 0;
+	set->map_data.win_height = HEIGHT;
+	set->map_data.win_width = WIDTH;
 	set->player.posx = set->map_data.player_posx + 0.5;
 	set->player.posy = set->map_data.player_posy + 0.5;
 	set->player.height = 8 * MINIMAP_SCALE;

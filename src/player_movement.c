@@ -12,6 +12,35 @@
 
 #include "cub3d.h"
 
+void	move_sides(t_setup *set)
+{
+	float	side_x;
+	float	side_y;
+
+	side_x = set->player.dir_y * set->player.mov_speed;
+	side_y = set->player.dir_x * set->player.mov_speed;
+	if (set->states[4] && !set->states[5])
+	{
+		side_y *= -1;
+		if (set->map_data.map[(int)(set->player.posy + side_y)]
+			[(int)(set->player.posx + side_x)] != '1')
+		{
+			set->player.posx += side_x;
+			set->player.posy += side_y;
+		}
+	}
+	if (!set->states[4] && set->states[5])
+	{
+		side_x *= -1;
+		if (set->map_data.map[(int)(set->player.posy + side_y)]
+			[(int)(set->player.posx + side_x)] != '1')
+		{
+			set->player.posx += side_x;
+			set->player.posy += side_y;
+		}
+	}
+}
+
 void	move_validation(t_setup *set)
 {
 	int		x;
@@ -29,6 +58,7 @@ void	move_validation(t_setup *set)
 		set->player.posx += set->player.dir_x * move_rate;
 	if (set->map_data.map[newy][x] != '1')
 		set->player.posy += set->player.dir_y * move_rate;
+	move_sides(set);
 }
 
 void	turn_player(t_setup *set)

@@ -20,10 +20,14 @@ int	key_event(int keycode, t_setup *set)
 		set->states[0] = 1;
 	if (keycode == L_KEY)
 		set->states[1] = 1;
-	if (keycode == U_KEY)
+	if (keycode == W)
 		set->states[2] = 1;
-	if (keycode == D_KEY)
+	if (keycode == S)
 		set->states[3] = 1;
+	if (keycode == A)
+		set->states[4] = 1;
+	if (keycode == D)
+		set->states[5] = 1;
 	return (0);
 }
 
@@ -33,10 +37,14 @@ int	key_event_release(int keycode, t_setup *set)
 		set->states[0] = 0;
 	if (keycode == L_KEY)
 		set->states[1] = 0;
-	if (keycode == U_KEY)
+	if (keycode == W)
 		set->states[2] = 0;
-	if (keycode == D_KEY)
+	if (keycode == S)
 		set->states[3] = 0;
+	if (keycode == A)
+		set->states[4] = 0;
+	if (keycode == D)
+		set->states[5] = 0;
 	return (0);
 }
 
