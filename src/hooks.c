@@ -51,6 +51,7 @@ int	key_event_release(int keycode, t_setup *set)
 int	close_win(t_setup *set)
 {
 	mlx_destroy_window(set->mlx, set->mlx_win);
+	clean_textures(set);
 	clean_map(&set->map_data);
 	exit(EXIT_FAILURE);
 }

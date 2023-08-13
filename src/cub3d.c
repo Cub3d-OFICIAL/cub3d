@@ -81,20 +81,22 @@ void	init_setup(t_setup *set)
 	set->player.plane_x = 0;
 	set->player.plane_y = 0;
 	set_player_direction(set);
-	set->player.mov_speed = 0.01;
-	set->player.rot_speed = 0.01;
+	set->player.mov_speed = 0.003 * set->map_data.col_nbr;
+	set->player.rot_speed = 0.05;
 }
 
 int	main(int argc, char **argv)
 {
-	t_setup	game_setup;
+	t_setup	set;
 
 	if (check_argc(argc))
 		return (print_error(ARG_ERROR, 1));
-	if (check_map(argv[1], EXT, &game_setup.map_data))
+	if (check_map(argv[1], EXT, &set.map_data))
 		return (print_error(EXT_ERROR, 1));
-	init_setup(&game_setup);
-	start_game(&game_setup);
-	clean_map(&game_setup.map_data);
+	init_setup(&set);
+	init_texture(&set);
+	start_game(&set);
+	clean_textures(&set);
+	clean_map(&set.map_data);
 	return (0);
 }

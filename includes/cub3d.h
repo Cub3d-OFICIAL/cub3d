@@ -87,8 +87,10 @@ if the data inside it is correct!\n"
 # define TILE_SIZE 32
 # define PI 3.14159265
 # define TWO_PI 6.28318530
-# define HEIGHT 720
-# define WIDTH 1280
+# define HEIGHT 600
+# define WIDTH 800
+# define T_HEIGHT 64
+# define T_WIDTH 64
 /* ________________________Structs_________________________ */
 
 typedef struct s_map_info
@@ -157,61 +159,71 @@ typedef struct s_rays
 	int		draw_end;
 }	t_rays;
 
+typedef struct s_texture
+{
+	unsigned int	**buffer;
+	unsigned int	**textures;
+}	t_texture;
+
 typedef struct s_setup
 {
 	void		*mlx;
 	void		*mlx_win;
+	int			states[6];
 	t_data		frame;
 	t_map_info	map_data;
 	t_player	player;
-	int			states[6];
-}	t_setup;	
-
+	t_texture	texture;
+}	t_setup;
 
 /* _______________________Functions_________________________ */
 
-// error handling
+// Error handling
 int			print_error(char *error_str, int return_value);
 
-// argument checking
+// Argument checking
 int			check_argc(int argc);
 int			check_map(char *filename, char *ext, t_map_info *map_data);
 
-// reading map
+// Reading map
 int			read_map(t_map_info *map_data, char *filename);
 
-// map validation
+// Map validation
 int			is_map_valid(t_map_info *map_data);
 void		format_map(t_map_info *map_data);
 void		flood_fill(t_map_info *data, int i, int j, int *flag);
 int			rgb_color(int red, int green, int blue);
 
-// render functions
+// Render functions
 void		set_color(int *color, int i, int j, t_setup *set);
 void		render_minimap(t_setup *set);
 void		render_player(t_setup *set);
 void		render_floor_celling(t_setup *set);
 void		render_strip(int x, int drawStart, int drawEnd, t_setup *set);
 
-// player moviment
+// Player moviment
 void		move_player(t_setup *set);
 void		move_validation(t_setup *set);
 
-//Raycasting
+// Raycasting
 void		cast_all_rays(t_setup *set);
 
-// array utils
+// Texture
+void		init_texture(t_setup *set);
+void		clean_textures(t_setup *set);
+
+// Array utils
 int			array_size(char **array);
 char		**add_string(char **array, char *str, int size);
 void		print_str_array(char **array);
 int			max_line_length(char **array);
 char		*add_n_char(char *str, char c, int n);
 
-// utils
+// Utils
 void		free_array(char **str_array);
 void		clean_map(t_map_info *map_data);
 
-// hooks
+// Hooks
 int			key_event(int keycode, t_setup *info);
 int			key_event_release(int keycode, t_setup *info);
 int			close_win(t_setup *info);
