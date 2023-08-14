@@ -6,7 +6,7 @@
 /*   By: mpinna-l <mpinna-l@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 13:44:43 by mpinna-l          #+#    #+#             */
-/*   Updated: 2023/06/29 16:22:40 by mpinna-l         ###   ########.fr       */
+/*   Updated: 2023/08/14 18:01:07 by mpinna-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	render_next_frame(t_setup *set)
 	render_floor_celling(set);
 	cast_all_rays(set);
 	render_minimap(set);
-	usleep(100);
 	mlx_put_image_to_window(set->mlx, set->mlx_win, set->frame.img, 0, 0);
 	mlx_destroy_image(set->mlx, set->frame.img);
 	return (0);
@@ -81,8 +80,8 @@ void	init_setup(t_setup *set)
 	set->player.plane_x = 0;
 	set->player.plane_y = 0;
 	set_player_direction(set);
-	set->player.mov_speed = 0.003 * set->map_data.col_nbr;
-	set->player.rot_speed = 0.05;
+	set->player.mov_speed = 0.01;
+	set->player.rot_speed = 0.03;
 }
 
 int	main(int argc, char **argv)
