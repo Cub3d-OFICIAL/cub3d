@@ -90,7 +90,8 @@ void	projection(t_setup *set, t_rays *ray, int x)
 	ray->draw_end = ray->line_height / 2 + set->map_data.win_height / 2;
 	if (ray->draw_end >= set->map_data.win_height)
 		ray->draw_end = set->map_data.win_height - 1;
-	set->map_data.color_picker = WHITE;
+	// set->map_data.color_picker = WHITE;
+	// set->map_data.color_picker = 152;
 	if (ray->side == 1)
 		set->map_data.color_picker = set->map_data.color_picker / 2;
 	render_strip(x, ray->draw_start, ray->draw_end, set);

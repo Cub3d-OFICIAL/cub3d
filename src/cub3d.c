@@ -19,6 +19,7 @@ int	render_next_frame(t_setup *set)
 	cast_all_rays(set);
 	render_minimap(set);
 	mlx_put_image_to_window(set->mlx, set->mlx_win, set->frame.img, 0, 0);
+	init_texture(set);
 	mlx_destroy_image(set->mlx, set->frame.img);
 	return (0);
 }
@@ -80,8 +81,8 @@ void	init_setup(t_setup *set)
 	set->player.plane_x = 0;
 	set->player.plane_y = 0;
 	set_player_direction(set);
-	set->player.mov_speed = 0.01;
-	set->player.rot_speed = 0.03;
+	set->player.mov_speed = 0.05;
+	set->player.rot_speed = 0.05;
 }
 
 int	main(int argc, char **argv)
@@ -93,7 +94,6 @@ int	main(int argc, char **argv)
 	if (check_map(argv[1], EXT, &set.map_data))
 		return (print_error(EXT_ERROR, 1));
 	init_setup(&set);
-	init_texture(&set);
 	start_game(&set);
 	clean_textures(&set);
 	clean_map(&set.map_data);

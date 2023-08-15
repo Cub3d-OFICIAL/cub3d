@@ -161,8 +161,9 @@ typedef struct s_rays
 
 typedef struct s_texture
 {
-	unsigned int	**buffer;
-	unsigned int	**textures;
+	int		height;
+	int		width;
+	t_data	texture_img;
 }	t_texture;
 
 typedef struct s_setup
@@ -173,7 +174,7 @@ typedef struct s_setup
 	t_data		frame;
 	t_map_info	map_data;
 	t_player	player;
-	t_texture	texture;
+	t_texture	texture[4];
 }	t_setup;
 
 /* _______________________Functions_________________________ */
