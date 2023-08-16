@@ -18,8 +18,8 @@ int	render_next_frame(t_setup *set)
 	render_floor_celling(set);
 	cast_all_rays(set);
 	render_minimap(set);
+	usleep(100);
 	mlx_put_image_to_window(set->mlx, set->mlx_win, set->frame.img, 0, 0);
-	init_texture(set);
 	mlx_destroy_image(set->mlx, set->frame.img);
 	return (0);
 }
@@ -28,6 +28,7 @@ void	start_game(t_setup *set)
 {
 	set->mlx = mlx_init();
 	set->mlx_win = mlx_new_window(set->mlx, WIDTH, HEIGHT, CUB);
+	init_texture(set);
 	mlx_do_key_autorepeatoff(set->mlx);
 	mlx_hook(set->mlx_win, 2, 1L << 0, key_event, set);
 	mlx_hook(set->mlx_win, 3, 2L << 0, key_event_release, set);
