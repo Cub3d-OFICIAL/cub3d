@@ -157,6 +157,7 @@ typedef struct s_rays
 	int		line_height;
 	int		draw_start;
 	int		draw_end;
+	float	wall_hit_x;
 }	t_rays;
 
 typedef struct s_texture
@@ -200,7 +201,7 @@ void		set_color(int *color, int i, int j, t_setup *set);
 void		render_minimap(t_setup *set);
 void		render_player(t_setup *set);
 void		render_floor_celling(t_setup *set);
-void		render_strip(int x, int drawStart, int drawEnd, t_setup *set);
+void		render_strip(int x, int draw_start, int draw_end, t_setup *set, int *tex);
 
 // Player moviment
 void		move_player(t_setup *set);
@@ -212,6 +213,7 @@ void		cast_all_rays(t_setup *set);
 // Texture
 void		init_texture(t_setup *set);
 void		clean_textures(t_setup *set);
+int			get_pixel_color(t_texture texture, int x, int y);
 
 // Array utils
 int			array_size(char **array);

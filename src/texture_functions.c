@@ -42,7 +42,6 @@ void	init_texture(t_setup *set)
 	texture_images(set, &set->texture[SOUTH], set->map_data.s_path);
 	texture_images(set, &set->texture[EAST], set->map_data.e_path);
 	texture_images(set, &set->texture[WEST], set->map_data.w_path);
-	set->map_data.color_picker = get_pixel_color(set->texture[WEST], 12, 12);
 }
 
 void	clean_textures(t_setup *set)
