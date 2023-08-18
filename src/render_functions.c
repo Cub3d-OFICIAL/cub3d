@@ -93,12 +93,28 @@ void	render_minimap(t_setup *set)
 	render_player(set);
 }
 
-void	render_strip(int x, int drawStart, int drawEnd, t_setup *set)
+void	render_strip(int x, t_rays *ray, t_setup *set, int *tex)
 {	
-	while (drawStart <= drawEnd)
+	int		line_height;
+	float	rate;
+	int		i;
+	float	tex_increment;
+	float	tex_counter;
+
+	line_height = (ray->draw_end - ray->draw_start);
+	rate = line_height / (float) 64;
+	i = 0;
+	tex_increment = 1.0 / rate;
+	tex_counter = 0;
+	while (ray->draw_start <= ray->draw_end)
 	{
-		my_mlx_pixel_put(&set->frame, x, drawStart,
-			set->map_data.color_picker);
-		drawStart++;
+		my_mlx_pixel_put(&set->frame, x, ray->draw_start++, tex[i]);
+		tex_counter += tex_increment;
+		while (tex_counter >= 1.0)
+		{
+			if (++i >= 64)
+				i = 63;
+			tex_counter -= 1.0;
+		}
 	}
 }

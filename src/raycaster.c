@@ -83,6 +83,9 @@ void	calculate_wall_distance(t_setup *set, t_rays *ray)
 
 void	projection(t_setup *set, t_rays *ray, int x)
 {
+	int	texture_strip[64];
+	int	i;
+
 	ray->line_height = (int)(set->map_data.win_height / ray->distance);
 	ray->draw_start = -ray->line_height / 2 + set->map_data.win_height / 2;
 	if (ray->draw_start < 0)
@@ -90,10 +93,17 @@ void	projection(t_setup *set, t_rays *ray, int x)
 	ray->draw_end = ray->line_height / 2 + set->map_data.win_height / 2;
 	if (ray->draw_end >= set->map_data.win_height)
 		ray->draw_end = set->map_data.win_height - 1;
-	set->map_data.color_picker = WHITE;
-	if (ray->side == 1)
-		set->map_data.color_picker = set->map_data.color_picker / 2;
-	render_strip(x, ray->draw_start, ray->draw_end, set);
+	if (ray->side == 0)
+		ray->wall_hit_x = set->player.posy + ray->distance * ray->ray_diry;
+	else
+		ray->wall_hit_x = set->player.posx + ray->distance * ray->ray_dirx;
+	ray->wall_hit_x -= floor(ray->wall_hit_x);
+	set_texture_details(ray);
+	i = -1;
+	while (++i < 64)
+		texture_strip[i] = get_pixel_color(set->texture[ray->texture_index],
+				ray->tex_x, i);
+	render_strip(x, ray, set, texture_strip);
 }
 
 void	cast_all_rays(t_setup *set)

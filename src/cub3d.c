@@ -6,7 +6,7 @@
 /*   By: mpinna-l <mpinna-l@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 13:44:43 by mpinna-l          #+#    #+#             */
-/*   Updated: 2023/06/29 16:22:40 by mpinna-l         ###   ########.fr       */
+/*   Updated: 2023/08/14 18:01:07 by mpinna-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	start_game(t_setup *set)
 {
 	set->mlx = mlx_init();
 	set->mlx_win = mlx_new_window(set->mlx, WIDTH, HEIGHT, CUB);
+	init_texture(set);
 	mlx_do_key_autorepeatoff(set->mlx);
 	mlx_hook(set->mlx_win, 2, 1L << 0, key_event, set);
 	mlx_hook(set->mlx_win, 3, 2L << 0, key_event_release, set);
@@ -81,20 +82,21 @@ void	init_setup(t_setup *set)
 	set->player.plane_x = 0;
 	set->player.plane_y = 0;
 	set_player_direction(set);
-	set->player.mov_speed = 0.01;
-	set->player.rot_speed = 0.01;
+	set->player.mov_speed = 0.05;
+	set->player.rot_speed = 0.05;
 }
 
 int	main(int argc, char **argv)
 {
-	t_setup	game_setup;
+	t_setup	set;
 
 	if (check_argc(argc))
 		return (print_error(ARG_ERROR, 1));
-	if (check_map(argv[1], EXT, &game_setup.map_data))
+	if (check_map(argv[1], EXT, &set.map_data))
 		return (print_error(EXT_ERROR, 1));
-	init_setup(&game_setup);
-	start_game(&game_setup);
-	clean_map(&game_setup.map_data);
+	init_setup(&set);
+	start_game(&set);
+	clean_textures(&set);
+	clean_map(&set.map_data);
 	return (0);
 }

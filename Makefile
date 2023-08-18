@@ -10,7 +10,7 @@ CC = cc
 
 SRC = check_arguments.c  cub3d.c hooks.c mlx_utils.c error_handling.c readmap.c\
 	  utils.c array_utils.c map_validation.c flood_fill.c render_functions.c player_movement.c\
-	  raycaster.c
+	  raycaster.c texture_functions.c
 
 SRCS = $(addprefix src/, $(SRC))
 
@@ -24,7 +24,7 @@ INCLUDES = -I./includes
 
 ifeq ($(shell uname), Linux)
 LIBS	= -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz includes/libft/libft.a
-MLX_O	= -I/usr/include -lmlx_Linux -O3
+MLX_O	= -I/usr/include -O3
 MLX_DIR	= mlx_linux
 else
 LIBS	= -Lmlx -lmlx -framework OpenGL -framework AppKit includes/libft/libft.a
