@@ -158,6 +158,7 @@ typedef struct s_rays
 	int		draw_start;
 	int		draw_end;
 	float	wall_hit_x;
+	int		texture_index;
 }	t_rays;
 
 typedef struct s_texture

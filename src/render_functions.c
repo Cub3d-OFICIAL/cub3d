@@ -98,24 +98,23 @@ void	render_strip(int x, int draw_start, int draw_end, t_setup *set, int *tex)
 	int		line_height;
 	float	rate;
 	int		i;
-	int		j;
+	float	tex_increment;
+	float	tex_counter;
 
-	line_height = draw_end - draw_start;
-	rate = line_height / (float) 64; //3,125
-	// float tex_pos = (draw_start - set->map_data.win_height /2 + line_height / 2) * rate;
+	line_height = (draw_end - draw_start);
+	rate = line_height / (float) 64;
 	i = 0;
-	j = 0;
+	tex_increment = 1.0 / rate;
+	tex_counter = 0;
 	while (draw_start <= draw_end)
 	{
-		j++;
 		my_mlx_pixel_put(&set->frame, x, draw_start++, tex[i]);
-		if (j >= rate)
+		tex_counter += tex_increment;
+		while (tex_counter >= 1.0)
 		{
-			j = 0;
-			i += 1;
+			if (++i >= 64)
+				i = 63;
+			tex_counter -= 1.0;
 		}
-		if (i >= 64)
-			i = 63;
 	}
-	printf("%i\n", i);
 }

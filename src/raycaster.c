@@ -87,6 +87,7 @@ void	projection(t_setup *set, t_rays *ray, int x)
 	int	i;
 
 	ray->line_height = (int)(set->map_data.win_height / ray->distance);
+
 	ray->draw_start = -ray->line_height / 2 + set->map_data.win_height / 2;
 	if (ray->draw_start < 0)
 		ray->draw_start = 0;
@@ -98,17 +99,32 @@ void	projection(t_setup *set, t_rays *ray, int x)
 	else
 		ray->wall_hit_x = set->player.posx + ray->distance * ray->ray_dirx;
 	ray->wall_hit_x -= floor(ray->wall_hit_x);
-	i = -1;
 	int tex_x = floor(ray->wall_hit_x * 64);
 	if (ray->side == 0 && ray->ray_dirx > 0)
+		tex_x = tex_x;
+	if (ray->side == 0 && ray->ray_dirx <= 0)
 		tex_x = 64 - tex_x - 1;
-	if (ray->side == 1 && ray->ray_dirx < 0)
+	if (ray->side == 1 && ray->ray_diry > 0)
+		tex_x = tex_x;
+	if (ray->side == 1 && ray->ray_diry <= 0)
 		tex_x = 64 - tex_x - 1;
+	if (ray->side == 0)
+	{
+		if (ray->ray_dirx > 0)
+			ray->texture_index = 2;
+		else
+			ray->texture_index = 3;
+	}
+	else
+	{
+		if (ray->ray_diry > 0)
+			ray->texture_index = 0;
+		else
+			ray->texture_index = 1;
+	}
+	i = -1;
 	while (++i < 64)
-		texture_strip[i] = get_pixel_color(set->texture[3], tex_x, i);
-	// set->map_data.color_picker = get_pixel_color(set->texture[3], floor(ray->wall_hit_x * 64), 32);
-	// if (ray->side == 1)
-	// 	set->map_data.color_picker = set->map_data.color_picker / 2;
+		texture_strip[i] = get_pixel_color(set->texture[ray->texture_index], tex_x, i);
 	render_strip(x, ray->draw_start, ray->draw_end, set, texture_strip);
 }
 
