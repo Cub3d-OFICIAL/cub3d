@@ -93,7 +93,7 @@ void	render_minimap(t_setup *set)
 	render_player(set);
 }
 
-void	render_strip(int x, int draw_start, int draw_end, t_setup *set, int *tex)
+void	render_strip(int x, t_rays *ray, t_setup *set, int *tex)
 {	
 	int		line_height;
 	float	rate;
@@ -101,14 +101,14 @@ void	render_strip(int x, int draw_start, int draw_end, t_setup *set, int *tex)
 	float	tex_increment;
 	float	tex_counter;
 
-	line_height = (draw_end - draw_start);
+	line_height = (ray->draw_end - ray->draw_start);
 	rate = line_height / (float) 64;
 	i = 0;
 	tex_increment = 1.0 / rate;
 	tex_counter = 0;
-	while (draw_start <= draw_end)
+	while (ray->draw_start <= ray->draw_end)
 	{
-		my_mlx_pixel_put(&set->frame, x, draw_start++, tex[i]);
+		my_mlx_pixel_put(&set->frame, x, ray->draw_start++, tex[i]);
 		tex_counter += tex_increment;
 		while (tex_counter >= 1.0)
 		{

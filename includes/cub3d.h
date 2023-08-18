@@ -3,9 +3,9 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpinna-l <mpinna-l@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpinna-l <mpinna-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/12 17:48:11 by mpinna-l           #+#    #+#             */
+/*   Created: 2023/02/12 17:48:11 by mpinna-l           #+#    #+#            */
 /*   Updated: 2023/07/15 10:11:07 by mpinna-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -77,8 +77,8 @@
 # define CUB "cub3d"
 # define ARG_ERROR "Error\nWrong number of arguments!\nUsage: ./cub3d <map.cub>\n"
 # define EXT ".cub"
-# define EXT_ERROR "Error\nInvalid Map! Check if it exists, it's extention or\
-if the data inside it is correct!\n"
+# define EXT_ERROR "Error\nInvalid Map! Check if map exists, it's extention and\
+ if the map has the correct data set!\n"
 # define MAP_CHARS "01 NSEW"
 # define DIR_CHARS "NSEW"
 /* _______________________CONSTANTS___________________________ */
@@ -91,6 +91,10 @@ if the data inside it is correct!\n"
 # define WIDTH 800
 # define T_HEIGHT 64
 # define T_WIDTH 64
+# define NORTH 0
+# define SOUTH 1
+# define EAST 2
+# define WEST 3
 /* ________________________Structs_________________________ */
 
 typedef struct s_map_info
@@ -159,6 +163,7 @@ typedef struct s_rays
 	int		draw_end;
 	float	wall_hit_x;
 	int		texture_index;
+	int		tex_x;
 }	t_rays;
 
 typedef struct s_texture
@@ -202,7 +207,7 @@ void		set_color(int *color, int i, int j, t_setup *set);
 void		render_minimap(t_setup *set);
 void		render_player(t_setup *set);
 void		render_floor_celling(t_setup *set);
-void		render_strip(int x, int draw_start, int draw_end, t_setup *set, int *tex);
+void		render_strip(int x, t_rays *ray, t_setup *set, int *tex);
 
 // Player moviment
 void		move_player(t_setup *set);
@@ -213,6 +218,7 @@ void		cast_all_rays(t_setup *set);
 
 // Texture
 void		init_texture(t_setup *set);
+void		set_texture_details(t_rays *ray);
 void		clean_textures(t_setup *set);
 int			get_pixel_color(t_texture texture, int x, int y);
 

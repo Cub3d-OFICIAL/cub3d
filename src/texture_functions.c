@@ -11,10 +11,6 @@
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#define NORTH 0
-#define SOUTH 1
-#define EAST 2
-#define WEST 3
 
 int	get_pixel_color(t_texture texture, int x, int y)
 {
@@ -42,6 +38,33 @@ void	init_texture(t_setup *set)
 	texture_images(set, &set->texture[SOUTH], set->map_data.s_path);
 	texture_images(set, &set->texture[EAST], set->map_data.e_path);
 	texture_images(set, &set->texture[WEST], set->map_data.w_path);
+}
+
+void	set_texture_details(t_rays *ray)
+{
+	ray->tex_x = floor(ray->wall_hit_x * 64);
+	if (ray->side == 0 && ray->ray_dirx > 0)
+		ray->tex_x = ray->tex_x;
+	if (ray->side == 0 && ray->ray_dirx <= 0)
+		ray->tex_x = 64 - ray->tex_x - 1;
+	if (ray->side == 1 && ray->ray_diry > 0)
+		ray->tex_x = ray->tex_x;
+	if (ray->side == 1 && ray->ray_diry <= 0)
+		ray->tex_x = 64 - ray->tex_x - 1;
+	if (ray->side == 0)
+	{
+		if (ray->ray_dirx > 0)
+			ray->texture_index = EAST;
+		else
+			ray->texture_index = WEST;
+	}
+	else
+	{
+		if (ray->ray_diry > 0)
+			ray->texture_index = SOUTH;
+		else
+			ray->texture_index = NORTH;
+	}
 }
 
 void	clean_textures(t_setup *set)
