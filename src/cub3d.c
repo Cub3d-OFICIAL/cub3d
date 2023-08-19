@@ -17,7 +17,6 @@ int	render_next_frame(t_setup *set)
 	move_player(set);
 	render_floor_celling(set);
 	cast_all_rays(set);
-	render_minimap(set);
 	usleep(100);
 	mlx_put_image_to_window(set->mlx, set->mlx_win, set->frame.img, 0, 0);
 	mlx_destroy_image(set->mlx, set->frame.img);
@@ -82,8 +81,8 @@ void	init_setup(t_setup *set)
 	set->player.plane_x = 0;
 	set->player.plane_y = 0;
 	set_player_direction(set);
-	set->player.mov_speed = 0.05;
-	set->player.rot_speed = 0.05;
+	set->player.mov_speed = 0.02;
+	set->player.rot_speed = 0.01;
 }
 
 int	main(int argc, char **argv)

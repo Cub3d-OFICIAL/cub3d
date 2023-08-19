@@ -86,7 +86,7 @@ void	projection(t_setup *set, t_rays *ray, int x)
 	int	texture_strip[64];
 	int	i;
 
-	ray->line_height = (int)(set->map_data.win_height / ray->distance);
+	ray->line_height = (int)((set->map_data.win_height) / ray->distance);
 	ray->draw_start = -ray->line_height / 2 + set->map_data.win_height / 2;
 	if (ray->draw_start < 0)
 		ray->draw_start = 0;

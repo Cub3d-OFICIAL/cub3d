@@ -203,9 +203,6 @@ void		flood_fill(t_map_info *data, int i, int j, int *flag);
 int			rgb_color(int red, int green, int blue);
 
 // Render functions
-void		set_color(int *color, int i, int j, t_setup *set);
-void		render_minimap(t_setup *set);
-void		render_player(t_setup *set);
 void		render_floor_celling(t_setup *set);
 void		render_strip(int x, t_rays *ray, t_setup *set, int *tex);
 
